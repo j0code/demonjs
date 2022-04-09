@@ -107,7 +107,7 @@ export default class StalkUser extends EventEmitter {
 		}
 	}
 
-	toObject() {
+	toJSON() {
 		return { id: this.#id, active: this.#active, lastSeen: this.#lastSeen, status: this.#status, deviceStatus: this.#deviceStatus, justLeft: this.#justLeft }
 	}
 

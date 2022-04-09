@@ -9,7 +9,6 @@ userEvents.push("inviteCreate","messageCreate","messageReactionAdd","messageUpda
 const debugChannel = "943264045866291240"
 
 var saveData = await save.load("stalk", true)|| await save.load("backup/stalk") || {}
-writeBackup(saveData)
 var users
 
 export default class Stalk extends EventEmitter {
@@ -17,6 +16,7 @@ export default class Stalk extends EventEmitter {
 	#activeUsers; // needed to allow them to emit 'inactive'
 	constructor() {
 		super()
+		writeBackup(saveData)
 		users = MagicMap.fromObject(saveData.users, StalkUser)
 		console.log("Stalk", ...(users.conarr))
 		this.#activeUsers = new Set()
@@ -91,7 +91,7 @@ export default class Stalk extends EventEmitter {
 }
 
 function writeSave() {
-	save.write("stalk", { users: users.toObject() })
+	save.write("stalk", { users })
 }
 
 function writeBackup(data) {

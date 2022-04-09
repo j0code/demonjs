@@ -159,7 +159,7 @@ export default class ClientEventData {
 		return changes
 	}
 
-	toObject() {
+	toJSON() {
 		var o = Object.fromEntries(Object.entries(this))
 		if(this.channel)  o.channel  = this.channel
 		if(this.emoji)    o.emoji    = this.emoji
@@ -178,7 +178,7 @@ export default class ClientEventData {
 	}
 
 	toString() {
-		return "ClientEventData " + JSON.stringify(this.toObject(), null, "  ")
+		return "ClientEventData " + JSON.stringify(this, null, "  ")
 	}
 
 }

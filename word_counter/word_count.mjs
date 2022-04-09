@@ -3,32 +3,43 @@ import * as save from "../save.mjs"
 import MagicMap from "../util/magicmap.mjs"
 
 var saveData = await save.load("word_count", true) || await save.load("backup/word_count", true) || {}
-save.write("backup/word_count", saveData)
 
 let words
+let users
 
 export default class WordCount {
 
 	constructor() {
-		words = MagicMap.fromObject(saveData.words)
+		save.write("backup/word_count", saveData)
+
+		words      = MagicMap.fromObject(saveData.words)
+		users      = MagicMap.fromObject(saveData.users)
+
+		//console.log("words:", ...words.conarr)
+		//console.log("users:", ...users.conarr)
 
 		client.on("messageCreate", msg => {
 			if(msg.author.id == client.user.id) return
+
 			let wordlist  = msg.cleanContent.split(/\s/g)
-			let counts = {}
+			let user = users.get(msg.author.id) || {total: 0, words: new MagicMap()}
+
+			user.total += wordlist.length
+
 			for(let word of wordlist) {
 				word = word.toLowerCase()
 				word = word.replaceAll(/[!"§$%&/()=?'`^°{[\]}+*~#'<>|,;\.:-_]/g, "")
 				if(word.length == 0) continue
-				counts[word] = counts[word] || 0
-				counts[word]++
-				let count = words.get(word) || 0
-				count++
-				words.set(word, count)
+				let globalcount = words.get(word) || 0
+				globalcount++
+				words.set(word, globalcount)
+				let usercount = user.words.get() || 0
+				usercount++
+				user.words.set(word, usercount)
 			}
 
 			if(msg.content == "word count") {
-				let o = words.toObject()
+				let o = words.toJSON()
 				let arr = Array.from(Object.entries(o))
 				arr.sort((a,b) => b[1] - a[1])
 				let s = []
@@ -50,5 +61,5 @@ export default class WordCount {
 }
 
 function writeSave() {
-	save.write("word_count", {words: words.toObject()})
+	save.write("word_count", {words: words, users: users})
 }

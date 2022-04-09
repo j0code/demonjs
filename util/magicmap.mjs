@@ -12,12 +12,12 @@ export default class MagicMap extends Map {
 		return map
 	}
 
-	toObject() {
+	toJSON() {
 		var o = {}
 		for(var key of this.keys()) {
 			var value = this.get(key)
-			if(typeof value.toObject == "function") {
-				o[key] = value.toObject()
+			if(typeof value.toJSON == "function") {
+				o[key] = value.toJSON()
 			} else o[key] = value
 		}
 		return o
@@ -28,7 +28,7 @@ export default class MagicMap extends Map {
 	}
 
 	get conarr() {
-		return [this+"", this.toObject()]
+		return [this+"", this.toJSON()]
 	}
 
 }

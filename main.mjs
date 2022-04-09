@@ -75,6 +75,16 @@ client.on("messageCreate", msg => {
 	}
 })
 
+client.on("messageReactionAdd", (reaction, user) => {
+	reaction.message.fetch()
+	.then(msg => reaction.users.fetch())
+	.then(users => {
+		if(reaction.emoji.name == "❌" && reaction.message.author.id == client.user.id && users.has(client.user.id) && user.id != client.user.id) {
+			reaction.message.delete()
+		}
+	})
+})
+
 function loop() {
 	stalk.update()
 	typing.update()

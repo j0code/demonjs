@@ -167,10 +167,10 @@ function handler(data) {
 			default:
 			if(events.groups.UPDATE.includes(data.e)) {
 				log(data.e, ...data.changes.conarr)
-			} else log(data.e, data.toObject())
+			} else log(data.e, data.toJSON())
 		}
 	} catch(e) {
-		console.dir(data.toObject(), {depth: 0})
+		console.dir(data.toJSON(), {depth: 0})
 		console.log("Error: EventLogger: ", e)
 	}
 }

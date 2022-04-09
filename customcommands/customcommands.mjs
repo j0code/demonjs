@@ -168,8 +168,8 @@ export default class Commands {
 		      commands.set(name, cmd)
 		      saveCommands()
 
-		    } else i.reply({ ephemeral: true, content: "Not yet implemented." })
-		  } else i.reply({ ephemeral: true, content: "Not yet implemented." })
+		    } //else i.reply({ ephemeral: true, content: "Not yet implemented." })
+		  } //else i.reply({ ephemeral: true, content: "Not yet implemented." })
 		})
 
 		client.on("messageCreate", msg => {

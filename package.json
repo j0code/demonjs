@@ -1,0 +1,19 @@
+{
+  "name": "demonjs",
+  "version": "1.0.0",
+  "description": "demonjs, a multi-functional discord bot.",
+  "main": "main.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "j0code",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "@sapphire/snowflake": "^3.0.0",
+    "discord-api-types": "^0.20.2",
+    "discord-rpc": "^4.0.1",
+    "discord.js": "^13.3.1",
+    "socket.io-client": "^4.4.1"
+  }
+}

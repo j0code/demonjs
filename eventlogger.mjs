@@ -149,7 +149,7 @@ function handler(data) {
 			break
 
 			case "rateLimit":
-			log(data.e, `${data.before.method} ${data.before.path} ${data.rateLimitData.limit/1000}s; global: ${data.rateLimitData.global}; limit: ${data.rateLimitData.limit}`)
+			log(data.e, `${data.rateLimitData.method} ${data.rateLimitData.path} ${data.rateLimitData.limit/1000}s; global: ${data.rateLimitData.global}; limit: ${data.rateLimitData.limit}`)
 			break
 
 			case "typingStart":

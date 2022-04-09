@@ -15,7 +15,7 @@ export function getLogTimeString() {
 export function logEvent(o, ...content) {
 	var e = camelToUpper(o.e || "")
 	var esc = "\u001B"
-	console.log(`${esc}[90m${getLogTimeString()}${esc}[37m ${o.emoji || "  "} ${esc}[${o.color || "0"}m${e}${esc}[37m`, ...content)
+	console.log(`${esc}[90m${getLogTimeString()}${esc}[37m ${o.emoji || "  "} ${esc}[${o.color || "0"}m${e}${esc}[0;37m`, ...content)
 }
 
 export function logStalkEvents() {

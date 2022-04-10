@@ -75,7 +75,7 @@ export default class WordCount {
 
 				if(!s) i.reply({content: "Error: empty list", ephemeral: false, fetchReply: true})
 				.then(msg => msg.react("❌"))
-				else i.reply({content: `**TOTAL: ${total}**${user ? ` *(${percent(totalcount, total)}% of global)*` : ""}\n${s.join("\n")}`, ephemeral: false, fetchReply: true})
+				else i.reply({content: `**TOTAL: ${totalcount}**${user ? ` *(${percent(totalcount, total)}% of global)*` : ""}\n${s.join("\n")}`, ephemeral: false, fetchReply: true})
 				.then(msg => msg.react("❌"))
 
 				function percent(a, b) {

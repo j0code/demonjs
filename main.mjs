@@ -32,6 +32,7 @@ const activities = {
 		{ name: "Klondike", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "a game 🧩", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "with food", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
+		{ name: "your heart", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "polish cow", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "a bot duel", type: "COMPETING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "/ commands", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },

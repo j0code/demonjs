@@ -31,7 +31,7 @@ export default class WordCount {
 
 			for(let word of wordlist) {
 				word = word.toLowerCase()
-				word = word.replaceAll(/[!"§$%&/()=?`´^°{[\]}+*~#<>|,;\.:-_1234567890]/g, "")
+				word = word.replaceAll(/[\!\"\§\$\%\&\/\\\(\)\=\?\`\´\^\°\{\[\]\}\+\*\~\#\<\>\|\,\;\.\:\-\_1234567890]/g, "")
 				if(word.length == 0) continue
 				if(!msg.author.bot) {
 					let globalcount = words.get(word) || 0

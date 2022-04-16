@@ -80,7 +80,12 @@ const appCommands = [{
 	    type: 1,
 	    name: "select",
 			description: "send saved embed",
-			options: []
+			options: [{
+				type: 3,
+				name: "id",
+				description: "embed id",
+				required: true
+			}]
 	  }]
   }, {
 		type: 1,

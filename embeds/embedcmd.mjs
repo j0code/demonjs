@@ -25,12 +25,28 @@ export default class EmbedCmd {
 				if(group == "send") {
 
 					if(subcmd == "new") {
+
 						let o = getEmbedOptions(i)
 						i.reply({content: o.content, embeds: [o.embed]})
 						.catch(e => {
 							i.reply({content: e.message, ephemeral: true})
 						})
 						return
+
+					} else if(subcmd == "select") {
+
+						let id = i.options.getString("id")
+						let user = embeds.get(i.user.id) || {embeds: new MagicMap()}
+						if(!user.embeds.has(id)) return i.reply({content: `You did not create an embed with id ${id}.\nTry /embed list or /embed create`, ephemeral: true})
+						let o  = user.embeds.get(id)
+
+						i.reply({content: o.content, embeds: [o.embed]})
+						.catch(e => {
+							i.reply({content: e.message, ephemeral: true})
+						})
+
+						return
+
 					}
 
 				} else if(group == "field") {

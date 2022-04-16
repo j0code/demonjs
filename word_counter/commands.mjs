@@ -17,6 +17,7 @@ const appCommands = [{
   name: "words",
   description: "get word list (json)",
 	type: 1,
+	default_permission: false,
   options: [{
     type: 6,
     name: "user",

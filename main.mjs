@@ -55,6 +55,7 @@ const activities = {
 client.on("ready", () => {
 	let cmds = appCommands.concat(wordCountCommands, embedCommands)
 	Interactions.updateAppCommands(config.token, client.user.id, cmds)
+	Interactions.setPermissions()
 	console.log(cmds)
 	setInterval(loop, 5000) // run loop every 5 seconds
 

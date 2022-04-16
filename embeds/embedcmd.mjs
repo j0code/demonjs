@@ -1,3 +1,4 @@
+import { Permissions } from "discord.js"
 import { client } from "../main.mjs"
 import * as save from "../save.mjs"
 import MagicMap from "../util/magicmap.mjs"
@@ -17,12 +18,22 @@ export default class EmbedCmd {
 
 		console.log("embeds:", ...embeds.conarr)
 
-		client.on("interactionCreate", i => {
+		client.on("interactionCreate", async i => {
 			if(i.type == "APPLICATION_COMMAND" && i.commandName == "embed") {
 				let group = i.options._group
 				let subcmd = i.options._subcommand
 
 				if(group == "send") {
+
+					let channel = await client.channels.fetch(i.channelId)
+
+					let authorized = false
+					if(["DM","GROUP_DM"].includes(i.channel.type)) authorized = true
+					else {
+						let perms = i.member.permissions
+						authorized = perms.any([Permissions.FLAGS.MODERATE_MEMBERS, Permissions.FLAGS.MANAGE_GUILD], true)
+					}
+					if(!authorized) return i.reply({content: `Only server admins / mods may use this command.`, ephemeral: true})
 
 					if(subcmd == "new") {
 

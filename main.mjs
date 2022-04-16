@@ -6,6 +6,8 @@ import UserManager from "./usermanager/usermanager.mjs"
 import StatusBadger from "./statusbadger/statusbadger.mjs"
 import WordCount from "./word_counter/word_count.mjs"
 import wordCountCommands from "./word_counter/commands.mjs"
+import EmbedCmd from "./embeds/embedcmd.mjs"
+import embedCommands from "./embeds/commands.mjs"
 //import * as rpc from "./rpc.mjs" doesn't work + no documentation bruh
 import * as typing from "./typing/typing.mjs"
 import logEvents from "./eventlogger.mjs"
@@ -20,6 +22,7 @@ export const stalk = new Stalk()
 export const usermanager = new UserManager()
 const statusbadger = new StatusBadger(client, stalk)
 const wordcount = new WordCount()
+const embedcmd = new EmbedCmd()
 
 const activities = {
 	global: [
@@ -50,8 +53,9 @@ const activities = {
 }
 
 client.on("ready", () => {
-	//console.log(appCommands.concat(wordCountCommands))
-	Interactions.updateAppCommands(config.token, client.user.id, appCommands.concat(wordCountCommands))
+	let cmds = appCommands.concat(wordCountCommands, embedCommands)
+	Interactions.updateAppCommands(config.token, client.user.id, cmds)
+	console.log(cmds)
 	setInterval(loop, 5000) // run loop every 5 seconds
 
 	setRandomPresence()

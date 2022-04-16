@@ -80,8 +80,6 @@ export default class EmbedCmd {
 					user.embeds.set(id, o)
 					embeds.set(i.user.id, user)
 
-					console.log(o.embed)
-
 					i.reply({content: o.content, embeds: [o.embed], ephemeral: true})
 					.catch(e => {
 						i.reply({content: e.message, ephemeral: true})
@@ -95,7 +93,7 @@ export default class EmbedCmd {
 					let o = getEmbedOptions(i)
 					let id = i.options.getString("id")
 					let user = embeds.get(i.user.id) || {embeds: new MagicMap()}
-					if(user.embeds.has(id)) return i.reply({content: `An embed with the id ${id} already exists.\nTry/embed edit or /embed list`, ephemeral: true})
+					if(user.embeds.has(id)) return i.reply({content: `An embed with the id ${id} already exists.\nTry /embed edit or /embed list`, ephemeral: true})
 					i.reply({content: o.content, embeds: [o.embed], ephemeral: true})
 					.then(() => {
 						let user = embeds.get(i.user.id) || {embeds: new MagicMap()}
@@ -135,6 +133,36 @@ export default class EmbedCmd {
 					else if(ids) i.reply({content: "You did not create any embeds yet.\nTry /embed create", ephemeral: true})
 					return
 
+				} else if(subcmd == "edit") {
+
+					let id = i.options.getString("id")
+					let user = embeds.get(i.user.id) || {embeds: new MagicMap()}
+					if(!user.embeds.has(id)) return i.reply({content: `You did not create an embed with id ${id}.\nTry /embed list or /embed create`, ephemeral: true})
+					let o = getEmbedOptions(i, user.embeds.get(id))
+
+					i.reply({content: o.content, embeds: [o.embed], ephemeral: true})
+					.catch(e => {
+						i.reply({content: e.message, ephemeral: true})
+					})
+
+					writeSave()
+					return
+
+				} else if(subcmd == "delete") {
+
+					let id = i.options.getString("id")
+					let user = embeds.get(i.user.id) || {embeds: new MagicMap()}
+					if(!user.embeds.has(id)) return i.reply({content: `You did not create an embed with id ${id}.\nTry /embed list or /embed create`, ephemeral: true})
+					let confirm = i.options.getString("confirmation")
+					if(confirm != "I am sure") return i.reply({content: `In order to delete the embed, you have to confirm it.\nRemember that this **can not be undone.**\nIf you just want to edit the embed, use /embed edit or /embed field instead.`, ephemeral: true})
+
+					user.embeds.delete(id)
+
+					i.reply({content: "Successfully deleted", ephemeral: true})
+
+					writeSave()
+					return
+
 				}
 
 				i.reply({content: "Error: Not yet implemented.", ephemeral: true})
@@ -144,15 +172,16 @@ export default class EmbedCmd {
 
 }
 
-function getEmbedOptions(i) {
-	let o = {}
+function getEmbedOptions(i, x = {}) {
+	let o = x.embed || {}
+	x = { embed: o, content: i.options.getString("content") ?? x.content }
 	const keys = ["title","description","url","color","fields"]
-	for(let k of keys) o[k] = i.options.getString(k)
+	for(let k of keys) o[k] = i.options.getString(k) ?? o[k]
 	if(o.color && o.color.includes(",")) {
 		o.color = o.color.replaceAll(" ", "").split(",")
 		o.color = [Number(o.color[0]), Number(o.color[1]), Number(o.color[2])]
 	}
-	if(o.fields) {
+	if(o.fields && typeof o.fields == "string") {
 		let fields = o.fields.split(";")
 		o.fields = []
 		for(let f of fields) {
@@ -160,11 +189,18 @@ function getEmbedOptions(i) {
 			o.fields.push({name: f[0], value: f[1], inline: Boolean(f[2])})
 		}
 	}
-	o.author = {name: i.options.getString("author"), url: i.options.getString("author-url"), iconURL: i.options.getString("author-icon")}
-	o.footer = {text: i.options.getString("footer"), iconURL: i.options.getString("footer-icon")}
-	o.image  = {url: i.options.getString("image")}
-	o.video  = {url: i.options.getString("video")}
-	return { embed: o, content: i.options.getString("content") }
+	if(!o.author) o.author = {}
+	if(!o.footer) o.footer = {}
+	if(!o.image)  o.image  = {}
+	if(!o.video)  o.video  = {}
+	o.author.name    = i.options.getString("author")      ?? o.author.name
+	o.author.url     = i.options.getString("author-url")  ?? o.author.url
+	o.author.iconURL = i.options.getString("author-icon") ?? o.author.iconURL
+	o.footer.name    = i.options.getString("footer")      ?? o.footer.name
+	o.footer.url     = i.options.getString("footer-icon") ?? o.footer.url
+	o.image.url      = i.options.getString("image")       ?? o.image.url
+	o.video.url      = i.options.getString("video")       ?? o.video.url
+	return x
 }
 
 function writeSave() {

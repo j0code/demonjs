@@ -183,6 +183,11 @@ const appCommands = [{
 		description: "edit saved embed",
 		options: [{
 			type: 3,
+			name: "id",
+			description: "embed id",
+			required: true
+		}, {
+			type: 3,
 			name: "title",
 			description: "title",
 			required: false
@@ -321,6 +326,21 @@ const appCommands = [{
 				description: "whether this field is inline or not",
 				required: false
 			}]
+		}]
+	}, {
+		type: 1,
+		name: "delete",
+		description: "delete saved embed (can NOT be undone!)",
+		options: [{
+			type: 3,
+			name: "id",
+			description: "embed id",
+			required: true
+		}, {
+			type: 3,
+			name: "confirmation",
+			description: `Write "I am sure" to confirm`,
+			required: false
 		}]
 	}]
 }]

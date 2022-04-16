@@ -128,7 +128,7 @@ function handler(data) {
 			break
 
 			case "interactionCreate":
-			log(data.e, `${data.user.tag}: /${data.interaction.commandName} ${data.interaction.options._subcommand || ""}`)
+			log(data.e, `${data.user.tag}: /${data.interaction.commandName} ${data.interaction.options._group || ""} ${data.interaction.options._subcommand || ""}`)
 			break
 
 			case "presenceUpdate":

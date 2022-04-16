@@ -1,14 +1,13 @@
 import { client } from "../main.mjs"
 import * as save from "../save.mjs"
 import MagicMap from "../util/magicmap.mjs"
+import special_user_ids from "../util/special_user_ids.mjs"
 
 var saveData = await save.load("word_count", true) || await save.load("backup/word_count", true) || {}
 
 let words
 let users
 let total
-
-let webhukId = "863764572700016682" // Webhuk on DM Server
 
 export default class WordCount {
 
@@ -78,13 +77,17 @@ export default class WordCount {
 							return i.reply({content: `**Word: ${word}** (${user.username})\nCount: ${count}\nQuota of user: ${percent(count, totalcount)}%\nQuota of global: ${percent(count, total)}%`, ephemeral: true, fetchReply: false})
 						} else {
 							let globalcount = o[word] || 0
+							totalcount = 0
 							for(let e of users) {
 								let id = e[0]
 								let u = e[1]
 								let dcuser = client.users.cache.get(id)
 								let name = dcuser ? dcuser.username : `@${id}`
-								if(id == webhukId) name = "🪝 demon.js Webhuk"
-								if(u.words.has(word)) arr.push([name, u.words.get(word)])
+								if(special_user_ids[id]) name = special_user_ids[id]
+								if(u.words.has(word)) {
+									arr.push([name, u.words.get(word)])
+									totalcount += u.words.get(word)
+								}
 							}
 						}
 					} else arr = Array.from(Object.entries(o))
@@ -97,7 +100,7 @@ export default class WordCount {
 
 					if(!s) i.reply({content: "Error: empty list", ephemeral: false, fetchReply: true})
 					.then(msg => msg.react("❌"))
-					else i.reply({content: `**TOTAL: ${totalcount}**${user ? ` *(${percent(totalcount, total)}% of global)*` : ""}\n${s.join("\n")}`, ephemeral: false, fetchReply: true})
+					else i.reply({content: `**TOTAL: ${totalcount}**${(user || word) ? ` *(${percent(totalcount, total)}% of global)*` : ""}\n${s.join("\n")}`, ephemeral: false, fetchReply: true})
 					.then(msg => msg.react("❌"))
 
 				} else if(i.commandName == "words") {

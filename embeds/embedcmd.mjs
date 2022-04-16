@@ -33,6 +33,47 @@ export default class EmbedCmd {
 						return
 					}
 
+				} else if(group == "field") {
+
+					let id = i.options.getString("id")
+					let user = embeds.get(i.user.id) || {embeds: new MagicMap()}
+					if(!user.embeds.has(id)) return i.reply({content: `You did not create an embed with id ${id}.\nTry /embed list or /embed create`, ephemeral: true})
+					let o  = user.embeds.get(id)
+					let fields = o.embed.fields || []
+					let index  = i.options.getInteger("index") ?? fields.length
+					let name   = i.options.getString("name")
+					let value  = i.options.getString("value")
+					let inline = i.options.getBoolean("inline")
+
+					if(subcmd == "add") {
+						if(name && value) {
+							fields.splice(index, 0, {name, value, inline: inline || false})
+						}
+					} else if(subcmd == "remove") {
+						console.log(index, fields)
+						if(!fields[index]) return i.reply({content: `There is no such field with index ${index} in ${id}.\nTry /embed view or /embed add`, ephemeral: true})
+						fields.splice(index, 1)
+					} else if(subcmd == "edit") {
+						if(!fields[index]) return i.reply({content: `There is no such field with index ${index} in ${id}.\nTry /embed view or /embed add`, ephemeral: true})
+						if(name   != null) fields[index].name   = name
+						if(value  != null) fields[index].value  = value
+						if(inline != null) fields[index].inline = inline
+					}
+
+					o.embed.fields = fields
+					user.embeds.set(id, o)
+					embeds.set(i.user.id, user)
+
+					console.log(o.embed)
+
+					i.reply({content: o.content, embeds: [o.embed], ephemeral: true})
+					.catch(e => {
+						i.reply({content: e.message, ephemeral: true})
+					})
+
+					writeSave()
+					return
+
 				} else if(subcmd == "create") {
 
 					let o = getEmbedOptions(i)
@@ -63,7 +104,7 @@ export default class EmbedCmd {
 							i.reply({content: e.message, ephemeral: true})
 						})
 					} else {
-						i.reply({content: "You did not create an embed with that id.\nTry /embed list", ephemeral: true})
+						i.reply({content: `You did not create an embed with id ${id}.\nTry /embed list or /embed create`, ephemeral: true})
 					}
 					return
 

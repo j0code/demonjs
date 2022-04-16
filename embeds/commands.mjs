@@ -79,7 +79,7 @@ const appCommands = [{
 	  }, {
 	    type: 1,
 	    name: "select",
-			description: "send predefined embed",
+			description: "send saved embed",
 			options: []
 	  }]
   }, {

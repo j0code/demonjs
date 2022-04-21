@@ -42,13 +42,15 @@ const activities = {
 		{ name: "gelbe Karte", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "gnome-mines", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "development", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
+		{ name: "Get Schwifty", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "your privacy", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "smashing bugs", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "custom commands", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "polish cow dance", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "a drawing contest", type: "COMPETING", url: "https://youtu.be/d1YBv2mWll0" },
 		{ name: "all sorts of events", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "superiority over Server System™", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" }
+		{ name: "superiority over Server System™", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
+		{ name: "Dungeons, Dungeons and More Dungeons", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" }
 	]
 }
 

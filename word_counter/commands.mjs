@@ -11,7 +11,8 @@ const appCommands = [{
     type: 3,
     name: "word",
 		description: "word",
-		required: false
+		required: false,
+		autocomplete: true
   }, {
     type: 3,
     name: "language",

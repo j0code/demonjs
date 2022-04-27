@@ -2,6 +2,7 @@ import { client } from "../main.mjs"
 import * as save from "../save.mjs"
 import MagicMap from "../util/magicmap.mjs"
 import special_ids from "../util/special_ids.mjs"
+import { autocomplete } from "../util/util.mjs"
 
 var saveData = await save.load("word_count", true) || await save.load("backup/word_count", true) || {}
 
@@ -37,7 +38,7 @@ export default class WordCount {
 			for(let word of wordlist) {
 				word = word.toLowerCase()
 				word = word.replaceAll(/[\!\"\§\$\%\&\/\\\(\)\=\?\`\´\^\°\{\[\]\}\+\*\~\#\<\>\|\,\;\.\:\-\_1234567890]/g, "")
-				if(word.length == 0) continue
+				if(word.length == 0 || word.length > 50) continue
 				if(!msg.author.bot) {
 					let globalcount = words.get(word) || 0
 					globalcount++
@@ -134,11 +135,16 @@ export default class WordCount {
 					let opt = i.options.getFocused(true)
 
 					if(opt.name == "language") {
-						let arr = []
-						for(let lang of languages.values()) {
-							if(lang.name.includes(opt.value) || lang.name_en.includes(opt.value) || lang.code.startsWith(opt.value)) arr.push({name: `${lang.name} (${lang.name_en})`, value: lang.code})
-						}
-						i.respond(arr)
+
+						i.respond(autocomplete(languages,
+							(k,v) => (v.name.includes(opt.value) || v.name_en.includes(opt.value) || v.code.startsWith(opt.value)),
+							(k,v) => ({name: `${v.name} (${v.name_en})`, value: v.code})
+						))
+
+					} else if(opt.name == "word") {
+
+						i.respond(autocomplete(words, (k,v) => (k.includes(opt.value) && k.length < 50), (k,v) => ({name: k, value: k})))
+
 					}
 
 				}

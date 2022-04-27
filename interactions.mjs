@@ -26,11 +26,16 @@ export function setPermissions() {
 	perms.set({
 
 	})*/
-	client.application.commands.fetch()
+
+	// this sht doesn't work because Discord only allows per-guild permissions
+	/*client.application.commands.fetch()
 	.then(cmds => {
-		for(let cmd of cmds) {
+		console.log(cmds)
+		for(let cmd of cmds.values()) {
+			console.log(cmd)
 			switch(cmd.name) {
 				case "words":
+				case "dictionary":
 				cmd.permissions.set({
 					fullPermissions: [{
 						id: special_ids.owner,
@@ -38,7 +43,8 @@ export function setPermissions() {
 						permission: true
 					}]
 				})
+				console.log(`Set /${cmd.name} permission for ${special_ids.owner}`)
 			}
 		}
-	})
+	})*/
 }

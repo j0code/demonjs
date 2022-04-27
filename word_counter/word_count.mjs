@@ -8,6 +8,8 @@ var saveData = await save.load("word_count", true) || await save.load("backup/wo
 let words
 let users
 let total
+let dictionary
+let languages
 
 export default class WordCount {
 
@@ -19,6 +21,8 @@ export default class WordCount {
 			return { total: o.total, words: MagicMap.fromObject(o.words)}
 		}})
 		total      = saveData.total || 0
+		dictionary = MagicMap.fromObject(saveData.dictionary)
+		languages  = MagicMap.fromObject(saveData.languages)
 
 		//console.log("words:", ...words.conarr)
 		//console.log("users:", ...users.conarr)
@@ -120,6 +124,23 @@ export default class WordCount {
 					if(s.length <= 2000) i.reply({content: `\`\`\`json\n${s}\`\`\``, ephemeral: true, fetchReply: false})
 					else i.reply({content: `JSON is longer than Discord's character limit (2000).\nIn the future, j0code will make me upload it as a file.\nI sincerely apologize for the inconvenience. `, ephemeral: true, fetchReply: false})
 
+				} else if(i.commandName == "dictionary") {
+
+					dictionaryCmd(i)
+
+				}
+			} else if(i.type == "APPLICATION_COMMAND_AUTOCOMPLETE") {
+				if(i.commandName == "wordcount") {
+					let opt = i.options.getFocused(true)
+
+					if(opt.name == "language") {
+						let arr = []
+						for(let lang of languages.values()) {
+							if(lang.name.includes(opt.value) || lang.name_en.includes(opt.value) || lang.code.startsWith(opt.value)) arr.push({name: `${lang.name} (${lang.name_en})`, value: lang.code})
+						}
+						i.respond(arr)
+					}
+
 				}
 			}
 
@@ -132,6 +153,73 @@ export default class WordCount {
 
 }
 
+function dictionaryCmd(i) {
+
+	let subcmd = i.options._subcommand
+
+	if(subcmd == "show") showDict(i, "DICTIONARY", words)
+	else if(subcmd == "langs") showLangs(i, "LANGUAGES", languages)
+	else if(subcmd == "addlang") addLang(i)
+	else i.reply("Oops. You got me. I don't know what to do.")
+
+}
+
+function showDict(i, title, list) {
+	let arr = []
+	let len = 0
+
+	for(let w of list.keys()) {
+		arr.push(w)
+		len += w.length + 2
+		if(len > 1900) break
+	}
+
+	let s = arr.join(", ")
+	if(len > 1900) s += ", ..."
+
+	i.reply(`**${title}**\n${s}`)
+	// TODO:
+	// - Add stats (word count, amount of unidentified words,...)
+	// - allow filtering by language
+}
+
+function showLangs(i, title, list) {
+	let arr = []
+	let len = 0
+
+	console.log(list)
+
+	for(let lang of list.values()) {
+		console.log(lang)
+		let l = `${lang.name} (${lang.code})`
+		arr.push(l)
+		len += l.length + 2
+		if(len > 1900) break
+	}
+
+	let s = arr.join(", ")
+	if(len > 1900) s += ", ..."
+
+	i.reply({content: `**${title}**\n${s}`, ephemeral: true})
+}
+
+function addLang(i) {
+	if(i.user.id != special_ids.owner) return i.reply({content: "This command is for the bot owner only.", ephemeral: true})
+
+	let code    = i.options.getString("code")
+	let name    = i.options.getString("name")
+	let name_en = i.options.getString("name_en")
+
+	if(languages.has(code)) return i.reply({content: "This language already exists.",     ephemeral: true})
+	if(code.length != 2)    return i.reply({content: "The lang code has to be ISO 639-1", ephemeral: true})
+
+	languages.set(code, {code, name, name_en})
+
+	i.reply({content: `Successfully added lang ${code} (${name}/${name_en})`, ephemeral: true})
+
+	writeSave()
+}
+
 function writeSave() {
-	save.write("word_count", {words, users, total})
+	save.write("word_count", {words, users, total, dictionary, languages})
 }

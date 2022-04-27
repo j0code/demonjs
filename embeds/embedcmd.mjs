@@ -2,6 +2,7 @@ import { Permissions } from "discord.js"
 import { client } from "../main.mjs"
 import * as save from "../save.mjs"
 import MagicMap from "../util/magicmap.mjs"
+import { autocomplete } from "../util/util.mjs"
 
 var saveData = await save.load("embeds", true) || await save.load("backup/embeds", true) || {}
 
@@ -177,6 +178,21 @@ export default class EmbedCmd {
 				}
 
 				i.reply({content: "Error: Not yet implemented.", ephemeral: true})
+			} else if(i.type == "APPLICATION_COMMAND_AUTOCOMPLETE") {
+				if(i.commandName == "embed") {
+					let opt = i.options.getFocused(true)
+
+					if(opt.name == "id") {
+
+						let user = embeds.get(i.user.id) || {embeds: new MagicMap()}
+						i.respond(autocomplete(user.embeds,
+							(k,v) => k.includes(opt.value),
+							(k,v) => ({name: `${k} (${v.embed.title || v.embed.description || console.log(v)})`, value: k})
+						))
+
+					}
+
+				}
 			}
 		})
 	}

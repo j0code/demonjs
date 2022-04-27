@@ -44,12 +44,10 @@ export function autocomplete(list, condition, choice, max) {
 	for(let e of list.entries()) {
 		if(condition(e[0], e[1])) {
 			let c = choice(e[0], e[1])
-			console.log(c)
 			if(c.name.length > 100 || c.value.length > 100) continue // no results with length >100 allowed
 			arr.push(c)
 		}
 		if(arr.length >= 25 || arr.length >= max) break
 	}
-	console.log(arr)
 	return arr
 }

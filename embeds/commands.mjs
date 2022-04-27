@@ -84,7 +84,8 @@ const appCommands = [{
 				type: 3,
 				name: "id",
 				description: "embed id",
-				required: true
+				required: true,
+				autocomplete: true
 			}]
 	  }]
   }, {
@@ -95,7 +96,8 @@ const appCommands = [{
 			type: 3,
 			name: "id",
 			description: "id to identify embed",
-			required: true
+			required: true,
+			autocomplete: true
 		}, {
 			type: 3,
 			name: "title",
@@ -170,7 +172,8 @@ const appCommands = [{
 			type: 3,
 			name: "id",
 			description: "embed id",
-			required: true
+			required: true,
+			autocomplete: true
 		}]
 	}, {
 		type: 1,
@@ -185,7 +188,8 @@ const appCommands = [{
 			type: 3,
 			name: "id",
 			description: "embed id",
-			required: true
+			required: true,
+			autocomplete: true
 		}, {
 			type: 3,
 			name: "title",
@@ -259,7 +263,8 @@ const appCommands = [{
 				type: 3,
 				name: "id",
 				description: "embed id",
-				required: true
+				required: true,
+				autocomplete: true
 			}, {
 				type: 4,
 				name: "index",
@@ -289,7 +294,8 @@ const appCommands = [{
 				type: 3,
 				name: "id",
 				description: "embed id",
-				required: true
+				required: true,
+				autocomplete: true
 			}, {
 				type: 4,
 				name: "index",
@@ -304,7 +310,8 @@ const appCommands = [{
 				type: 3,
 				name: "id",
 				description: "embed id",
-				required: true
+				required: true,
+				autocomplete: true
 			}, {
 				type: 4,
 				name: "index",
@@ -335,7 +342,8 @@ const appCommands = [{
 			type: 3,
 			name: "id",
 			description: "embed id",
-			required: true
+			required: true,
+			autocomplete: true
 		}, {
 			type: 3,
 			name: "confirmation",

@@ -30,7 +30,7 @@ export default class WordCount {
 
 		client.on("messageCreate", msg => {
 
-			let wordlist  = msg.cleanContent.split(/\s/g)
+			let wordlist  = msg.cleanContent.split(/[\s\/\\\,\.\_\-]/g)
 			let user = users.get(msg.author.id) || {total: 0, words: new MagicMap()}
 
 			user.total += wordlist.length

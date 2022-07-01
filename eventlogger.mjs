@@ -100,6 +100,7 @@ function log(e, ...content) {
 function handler(data) {
 	let msgguildname   = data.guild?.name   || "DM"
 	let msgchannelname = data.channel?.name || data.channel?.recipient?.tag
+	let authortag = data.author?.tag || "unknown_user#0000"
 	try {
 		switch(data.e) {
 			case "ready":
@@ -108,11 +109,11 @@ function handler(data) {
 
 			case "messageCreate":
 			case "messageDelete":
-			log(data.e, `${msgguildname} #${msgchannelname} @${data.author.tag}: ${data.message.content}`)
+			log(data.e, `${msgguildname} #${msgchannelname} @${authortag}: ${data.message.content}`)
 			break
 
 			case "messageUpdate":
-			log(data.e, `${msgguildname} #${msgchannelname} @${data.author.tag}: ${data.before.content} -> ${data.now.content}`)
+			log(data.e, `${msgguildname} #${msgchannelname} @${authortag}: ${data.before.content} -> ${data.now.content}`)
 			break
 
 			case "channelCreate":

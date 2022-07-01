@@ -81,7 +81,6 @@ export default class StalkUser extends EventEmitter {
 		this.#deviceStatus.web = presence?.clientStatus?.web != undefined
 		if(sB != this.status || !compare(dSB, this.#deviceStatus)) this.emit("statusUpdate", this.status, this.#deviceStatus)
 		//console.log("statusUpdate! (presence)", undefined, sB, this.status, dSB, this.#deviceStatus, sB != this.status || !compare(dSB, this.#deviceStatus))
-		this.emit("statusUpdate", this.status, this.#deviceStatus)
 	}
 
 	seen() {

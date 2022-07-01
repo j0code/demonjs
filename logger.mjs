@@ -22,7 +22,7 @@ export function logStalkEvents() {
 	//stalk.on("witness", (e, user) => logEvent({ e: "witness", emoji: "🕵️ ", color: "90" }, user.user?.tag + ": " + e))
 	//stalk.on("statusUpdate", (user, status, deviceStatus) => logEvent("statusUpdate", "🕵️ ", user.user?.tag, status, deviceStatus))
 	stalk.on("active", (user) => {
-		console.log("active", user, user.user)
+		//console.log("active", user, user.user)
 		logEvent({ e: "active", emoji: "🕵️ ", color: "90" }, `${user.user.tag}`)
 	})
 	stalk.on("inactive", (user) => logEvent({ e: "inactive", emoji: "🕵️ ", color: "90" }, `${user.user.tag}`))

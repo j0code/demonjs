@@ -24,10 +24,10 @@ export default class StatusBadger {
 			c.send(`${user.user.tag} changed their status to ${status}.`)*/
 
 			// apply badge
-			var g = client.guilds.cache.get(testServer)
-			if(!g) return console.error("StatusBadger: Error: test server missing or unavailable")
-			var m = g.members.cache.get(user.id)
-			if(m) this.updateNickname(m)
+			for(let g of client.guilds.cache.values()) { // TODO: allow guilds to disable this feature
+				var m = g.members.cache.get(user.id)
+				if(m) this.updateNickname(m)
+			}
 		})
 
 		client.on("guildMemberUpdate", (a, b) => {
@@ -51,7 +51,7 @@ export default class StatusBadger {
 	}
 
 	updateNickname(member) {
-		if(!member || member.user.bot) return 
+		if(!member || member.user.bot) return
 		var badgeList = [badges.desktop, badges.mobile, badges.web, badges.invisible] // in reverse since it cuts the from the end
 		var nick = member.displayName
 		var emojis = this.getBadges(member.id)
@@ -67,7 +67,10 @@ export default class StatusBadger {
 		if(combined != member.displayName) {
 			if(combined.length > 32) combined = member.user.username.substr(0, 32 - emojis.length - 1) + " " + emojis.join("")
 			member.setNickname(combined, "Apply Badges")
-			.catch(e => console.error("StatusBadger: Error:", e))
+			.catch(e => {
+				if(e.message == "Missing Permissions") return console.debug(`StatusBadger: Could not set nickname for ${member.user.tag} in ${member.guild.name}`)
+				console.error("StatusBadger: Error:", e)
+			})
 		}
 		//console.log({ before: member.displayName, nick, emojis, combined, beforeBuf: Buffer.from(member.displayName), nickBuffr: Buffer.from(nick), emojisBuf: Buffer.from(emojis.join(""))})
 	}

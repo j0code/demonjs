@@ -1,7 +1,7 @@
 import { client } from "../main.mjs"
 
-const pocTime = 30000 // 30s
-const typingTime = 8000 // 8s
+const pocTime = 45000 // 45s
+const typingTime = 11000 // 11s
 const typingUsers = new Map()
 
 export function listen() {
@@ -23,7 +23,7 @@ export function listen() {
 			var o = channels.get(msg.channel.id)
 			channels.delete(msg.channel.id)
 			if(now - o.begin > pocTime) {
-				msg.channel.send(`${msg.author} pocced after ${(now - o.begin)/1000}s and ${o.pocs} pocs.`)
+				msg.channel.send(`${msg.author} pócced after ${(now - o.begin)/1000}s and ${o.pocs} pócs.`)
 			}
 			if (o.msg) {
 				o.msg.delete()
@@ -55,10 +55,10 @@ export function update() {
 			} else if(now - o.begin > pocTime) {
 				o.pocs++
 				if (!o.msg) {
-					c.send("poc").then(m => o.msg = m)
+					c.send("póc").then(m => o.msg = m)
 					.catch(e => console.error("[Typing/ERROR]: Could not send poc msg:", e))
 				} else {
-					o.msg.edit(`poc (${o.pocs})`).then(m => o.msg = m)
+					o.msg.edit(`póc (${o.pocs})`).then(m => o.msg = m)
 					.catch(e => console.error("[Typing/ERROR]: Could not edit poc msg:", e))
 				}
 			}

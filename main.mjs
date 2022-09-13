@@ -1,14 +1,11 @@
 import * as Discord from 'discord.js'
 import YSON from "@j0code/yson"
 import Commands from "./customcommands/customcommands.mjs"
-import { appCommands } from "./customcommands/customcommands.mjs"
 import Stalk from "./stalk/stalk.mjs"
 import UserManager from "./usermanager/usermanager.mjs"
 import StatusBadger from "./statusbadger/statusbadger.mjs"
 import WordCount from "./word_counter/word_count.mjs"
-import wordCountCommands from "./word_counter/commands.mjs"
 import EmbedCmd from "./embeds/embedcmd.mjs"
-import embedCommands from "./embeds/commands.mjs"
 //import * as rpc from "./rpc.mjs" doesn't work + no documentation bruh
 import * as typing from "./typing/typing.mjs"
 import logEvents from "./eventlogger.mjs"
@@ -29,9 +26,7 @@ const wordcount = new WordCount()
 const embedcmd = new EmbedCmd()
 
 client.on("ready", () => {
-	let cmds = appCommands.concat(wordCountCommands, embedCommands)
-	Interactions.updateAppCommands(config.token, client.user.id, cmds)
-	console.log(cmds)
+	Interactions.updateAppCommands(config.token, client.user.id)
 	setInterval(loop, 5000) // run loop every 5 seconds
 
 	setRandomPresence()

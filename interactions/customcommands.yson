@@ -1,0 +1,89 @@
+[{
+  name: "command",
+  description: "List guilds",
+  options: [{
+    type: 1,
+    name: "list",
+    description: "List commands"
+  }, {
+    type: 1,
+    name: "info",
+    description: "Get info about command",
+    options: [{
+      type: 3,
+      name: "name",
+      description: "command name",
+      required: true
+    }]
+  }, {
+    type: 1,
+    name: "set",
+    description: "Add or override command",
+    options: [{
+      type: 3,
+      name: "name",
+      description: "command name",
+      required: true
+    }, {
+      type: 3,
+      name: "content",
+      description: "content (try $u $m $d $t $* $0 $1 $2)",
+      required: false
+    }, {
+      type: 5,
+      name: "reply",
+      description: "reply or just send (default: true)",
+      required: false
+    }, {
+      type: 3,
+      name: "reaction",
+      description: "emoji to react (when no content, react to original msg)",
+      required: false
+    }, {
+      type: 5,
+      name: "delmsg",
+      description: "delete the original message (default: false)",
+      required: false
+    }]
+  }, {
+    type: 1,
+    name: "edit",
+    description: "Edit an existing command",
+    options: [{
+      type: 3,
+      name: "name",
+      description: "command name",
+      required: true
+    }, {
+      type: 3,
+      name: "content",
+      description: "content (try $u $m $d $t $* $0 $1 $2)",
+      required: false
+    }, {
+      type: 5,
+      name: "reply",
+      description: "reply or just send",
+      required: false
+    }, {
+      type: 3,
+      name: "reaction",
+      description: "emoji to react (when no content, react to original msg)",
+      required: false
+    }, {
+      type: 5,
+      name: "delmsg",
+      description: "delete the original message",
+      required: false
+    }]
+  }, {
+    type: 1,
+    name: "delete",
+    description: "Delete command",
+    options: [{
+      type: 3,
+      name: "name",
+      description: "command name",
+      required: true
+    }]
+  }]
+}]

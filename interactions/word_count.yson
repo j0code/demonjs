@@ -1,4 +1,4 @@
-const appCommands = [{
+[{
   name: "wordcount",
   description: "show word counts",
 	type: 1,
@@ -84,5 +84,3 @@ const appCommands = [{
 	  }]
   }]
 }]
-
-export default appCommands

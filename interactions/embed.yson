@@ -1,4 +1,4 @@
-const appCommands = [{
+[{
   name: "embed",
   description: "embed builder",
 	type: 1,
@@ -352,5 +352,3 @@ const appCommands = [{
 		}]
 	}]
 }]
-
-export default appCommands

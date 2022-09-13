@@ -6,9 +6,9 @@ import { client } from "./main.mjs"
 
 const rest = new REST({version: 9})
 
-let path = "./interactions"
-let files = await fs.readdir(path)
-let list = []
+const path = "./interactions"
+const files = await fs.readdir(path)
+let cmds = []
 
 for (let f of files) {
 	if (!f.endsWith(".yson")) continue
@@ -23,21 +23,22 @@ for (let f of files) {
 	if (data) {
 		try {
 			data = await YSON.parse(data)
-			console.log(data)
+			cmds = cmds.concat(data)
 		} catch (e) {
 			console.error(`load ${f}:`, e)
 		}
 	}
 }
 
-export async function updateAppCommands(token, id, appCommands) {
+export async function updateAppCommands(token, id) {
+	console.log("Commands:", cmds)
   rest.setToken(token)
   try {
     console.log('Started refreshing application (/) commands.')
 
     await rest.put(
       Routes.applicationCommands(id),
-      { body: appCommands },
+      { body: cmds },
     )
 
     console.log('Successfully reloaded application (/) commands.')

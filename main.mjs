@@ -1,4 +1,5 @@
 import * as Discord from 'discord.js'
+import YSON from "@j0code/yson"
 import Commands from "./customcommands/customcommands.mjs"
 import { appCommands } from "./customcommands/customcommands.mjs"
 import Stalk from "./stalk/stalk.mjs"
@@ -14,7 +15,10 @@ import logEvents from "./eventlogger.mjs"
 import * as Interactions from "./interactions.mjs"
 import * as debug_console from "./debug_console.mjs"
 import { logStalkEvents } from "./logger.mjs"
-import config from "./config-loader.mjs"
+
+export const config = await YSON.load("config.yson")
+const activities = await YSON.load("activities.yson")
+export const special_ids = await YSON.load("special_ids.yson")
 
 export const client = new Discord.Client(config.clientOptions)
 const commands = new Commands()
@@ -24,40 +28,9 @@ const statusbadger = new StatusBadger(client, stalk)
 const wordcount = new WordCount()
 const embedcmd = new EmbedCmd()
 
-const activities = {
-	global: [
-		{ name: "you", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "sus", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "dog", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "EDM", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "ratio", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "amogus", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "Klondike", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "a game 🧩", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "with food", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "your heart", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "polish cow", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "a bot duel", type: "COMPETING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "/ commands", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "gelbe Karte", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "gnome-mines", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "development", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "Get Schwifty", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "your privacy", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "smashing bugs", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "custom commands", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "polish cow dance", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "a drawing contest", type: "COMPETING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "all sorts of events", type: "LISTENING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "superiority over Server System™", type: "WATCHING", url: "https://youtu.be/d1YBv2mWll0" },
-		{ name: "Dungeons, Dungeons and More Dungeons", type: "PLAYING", url: "https://youtu.be/d1YBv2mWll0" }
-	]
-}
-
 client.on("ready", () => {
 	let cmds = appCommands.concat(wordCountCommands, embedCommands)
 	Interactions.updateAppCommands(config.token, client.user.id, cmds)
-	Interactions.setPermissions()
 	console.log(cmds)
 	setInterval(loop, 5000) // run loop every 5 seconds
 
@@ -65,9 +38,9 @@ client.on("ready", () => {
 	setInterval(setRandomPresence, 9000)
 
 	function setRandomPresence() {
-		let i = Math.floor(Math.random() * activities.global.length)
+		let i = Math.floor(Math.random() * activities.length)
 		client.user.setPresence({
-			activities: [activities.global[i]]
+			activities: [activities[i]]
 		})
 	}
 })

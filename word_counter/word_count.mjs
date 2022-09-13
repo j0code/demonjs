@@ -1,7 +1,6 @@
-import { client } from "../main.mjs"
+import { client, special_ids } from "../main.mjs"
 import * as save from "../save.mjs"
 import MagicMap from "../util/magicmap.mjs"
-import special_ids from "../util/special_ids.mjs"
 import { autocomplete } from "../util/util.mjs"
 
 var saveData = await save.load("word_count", true) || await save.load("backup/word_count", true) || {}
@@ -88,7 +87,7 @@ export default class WordCount {
 								let u = e[1]
 								let dcuser = client.users.cache.get(id)
 								let name = dcuser ? dcuser.username : `@${id}`
-								if(special_ids.webhooks[id]) name = special_ids.webhooks[id]
+								if(special_ids.webhooks.has(id)) name = special_ids.webhooks.get(id)
 								if(u.words.has(word)) {
 									arr.push([name, u.words.get(word)])
 									totalcount += u.words.get(word)

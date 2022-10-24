@@ -98,22 +98,38 @@ function log(e, ...content) {
 }
 
 function handler(data) {
-	let msgguildname   = data.guild?.name   || "DM"
-	let msgchannelname = data.channel?.name || data.channel?.recipient?.tag
-	let authortag = data.author?.tag || "unknown_user#0000"
+	const msgguildname   = data.guild?.name   || "DM"
+	const msgchannelname = data.channel?.name || data.channel?.recipient?.tag
+	const authortag      = data.author?.tag   || "unknown_user#0000"
+
+	let changes = []
+	if (data.changes) for (let k of Object.keys(data.changes)) {
+		if (["permissionOverwrites"].includes(k)) continue
+		let before = data.changes[k].before
+		let now    = data.changes[k].now
+		if (before && before.toString != Object.prototype.toString) before = before + ""
+		if (now    && now.toString    != Object.prototype.toString) now    = now    + ""
+		changes.push(`${k}:`)
+		changes.push(before)
+		changes.push("->")
+		changes.push(now)
+		changes.push(";")
+	}
+	if (changes[changes.length-1] == "; ") changes.pop() // remove last "; "
+
 	try {
 		switch(data.e) {
 			case "ready":
-			log(data.e, `Logged in as ${data.client.user.tag}!`)
+			log(data.e, `Logged in as ${data?.client?.user?.tag}!`)
 			break
 
 			case "messageCreate":
 			case "messageDelete":
-			log(data.e, `${msgguildname} #${msgchannelname} @${authortag}: ${data.message.content}`)
+			log(data.e, `${msgguildname} #${msgchannelname} @${authortag}: ${data?.message?.content}`)
 			break
 
 			case "messageUpdate":
-			log(data.e, `${msgguildname} #${msgchannelname} @${authortag}: ${data.before.content} -> ${data.now.content}`)
+			log(data.e, `${msgguildname} #${msgchannelname} @${authortag}:`, ...changes)
 			break
 
 			case "channelCreate":
@@ -122,54 +138,54 @@ function handler(data) {
 			break
 
 			case "channelUpdate":
-			log(data.e, `${data.guild} #${data.channel.name} -> #${data.now.name}`)
+			log(data.e, `${data?.guild} #${data.channel?.name}:`, ...changes)
 			break
 
 			case "guildCreate":
 			case "guildDelete":
-			log(data.e, `${data.guild.name}`)
+			log(data.e, `${data.guild?.name}`)
 			break
 
 			case "interactionCreate":
-			log(data.e, `${data.user.tag}: /${data.interaction.commandName} ${data.interaction.options._group || ""} ${data.interaction.options._subcommand || ""}`)
+			log(data.e, `${data.user?.tag}: /${data.interaction?.commandName} ${data.interaction?.options?._group || ""} ${data.interaction?.options?._subcommand || ""}`)
 			break
 
 			case "presenceUpdate":
-			log(data.e, `${data.guild.name ? data.guild.name : ""} @${data.user.tag}: ${data.presence && data.presence.status} -> ${data.now && data.now.status}`)
+			log(data.e, `${data.guild?.name ? data.guild?.name : ""} @${data.user?.tag}:`, ...changes)
 			break
 
 			case "userUpdate":
-			log(data.e, `@${data.user.tag} ${data.before.accentColor} ${data.before.verified} -> @${data.user.tag} ${data.now.accentColor} ${data.now.verified}`)
+			log(data.e, `@${data.user?.tag}:`, ...changes)
 			break
 
 			case "webhookUpdate":
-			log(data.e, `${data.guild.name} #${data.channel.name}`)
+			log(data.e, `${data.guild?.name} #${data.channel?.name}:`, ...changes)
 			break
 
 			case "messageReactionAdd":
 			case "messageReactionRemove":
-			log(data.e, `${data.guild.name} #${data.channel.name} ${data.user.tag} ${data.reaction.emoji.name}`)
+			log(data.e, `${data.guild?.name} #${data.channel?.name} ${data.user?.tag} ${data.reaction?.emoji?.name}`)
 			break
 
 			case "rateLimit":
-			log(data.e, `${data.rateLimitData.method} ${data.rateLimitData.path} ${data.rateLimitData.limit/1000}s; global: ${data.rateLimitData.global}; limit: ${data.rateLimitData.limit}`)
+			log(data.e, `${data.rateLimitData.method} ${data.rateLimitData.path} ${data.rateLimitData.limit/1000}s; global: ${data.rateLimitData.global}`)
 			break
 
 			case "typingStart":
-			log(data.e, `${data.guild.name} #${data.channel.name} @${data.user.tag}`)
+			log(data.e, `${data.guild?.name} #${data.channel?.name} @${data.user?.tag}`)
 			break
 
 			case "voiceStateUpdate":
-			log(data.e, `${data.guild.name} #${data.channel.name} @${data.user.tag}`)
+			log(data.e, `${data.guild?.name} #${data.channel?.name} @${data.user?.tag}:`, ...changes)
 			break
 
 			case "guildMemberUpdate":
-			log(data.e, `${data.guild.name} @${data.user.tag}:`, ...data.changes.conarr)
+			log(data.e, `${data.guild?.name} @${data.user?.tag}:`, ...changes)
 			break
 
 			default:
 			if(events.groups.UPDATE.includes(data.e)) {
-				log(data.e, ...data.changes.conarr)
+				log(data.e, ...changes)
 			} else log(data.e, data.toJSON())
 		}
 	} catch(e) {

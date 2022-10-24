@@ -143,19 +143,11 @@ export default class ClientEventData {
 		if(this.before) for(let k in this.before) if(!keys.includes(k)) keys.push(k)
 		if(this.now)  for(let k in this.now)  if(!keys.includes(k)) keys.push(k)
 		var changes = {}
-		var conarr = ["{"]
 		for(let k of keys) {
 			if(!this.before || !this.now || !compare(this.before[k], this.now[k])) {
-				changes[k] = { before: this.before[k], now: this.now[k] }
-				conarr.push("\n  " + k + ":")
-				conarr.push(this.before[k])
-				conarr.push("->")
-				conarr.push(this.now[k])
+				changes[k] = { before: this.before ? this.before[k] : null, now: this.now ? this.now[k] : null }
 			}
 		}
-		if(conarr.length > 1) conarr.push("\n}")
-		else conarr.push("}")
-		changes.conarr = conarr
 		return changes
 	}
 

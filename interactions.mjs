@@ -2,7 +2,6 @@ import fs from "fs/promises"
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
 import YSON from "@j0code/yson"
-import { client } from "./main.mjs"
 
 const rest = new REST({version: 9})
 

@@ -11,7 +11,7 @@ import * as typing from "./typing/typing.mjs"
 import logEvents from "./eventlogger.mjs"
 import * as Interactions from "./interactions.mjs"
 import * as debug_console from "./debug_console.mjs"
-import { logStalkEvents } from "./logger.mjs"
+import { logStalkEvents, getLogTimeString } from "./logger.mjs"
 
 export const config = await YSON.load("config.yson")
 const activities = await YSON.load("activities.yson")
@@ -38,6 +38,12 @@ client.on("ready", () => {
 			activities: [activities[i]]
 		})
 	}
+
+	console.group("Bot in following guilds:")
+	for (let g of client.guilds.cache.values()) {
+		console.log(`${g.name} (${g.id}) @ ${getLogTimeString()}`)
+	}
+	console.groupEnd()
 })
 
 client.on("messageCreate", msg => {

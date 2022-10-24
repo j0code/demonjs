@@ -1,15 +1,14 @@
 import { stalk } from "./main.mjs"
 import { camelToUpper } from "./util/util.mjs"
 
-export function getLogTimeString() {
-	var now = new Date();
-	var s = now.getSeconds();
-	var min = now.getMinutes();
-	var h = now.getHours();
-	var d = now.getDate();
-	var m = now.getMonth() +1;
-	var y = now.getFullYear();
-	return y + "/" + (m < 10 ? "0"+m : m) + "/" + (d < 10 ? "0"+d : d) + " " + (h < 10 ? "0"+h : h) + ":" + (min < 10 ? "0"+min : min) + ":" + (s < 10 ? "0"+s : s)
+export function getLogTimeString(date = new Date()) {
+	var s = date.getSeconds();
+	var min = date.getMinutes();
+	var h = date.getHours();
+	var d = date.getDate();
+	var m = date.getMonth() +1;
+	var y = date.getFullYear();
+	return y + "-" + (m < 10 ? "0"+m : m) + "-" + (d < 10 ? "0"+d : d) + " " + (h < 10 ? "0"+h : h) + ":" + (min < 10 ? "0"+min : min) + ":" + (s < 10 ? "0"+s : s)
 }
 
 export function logEvent(o, ...content) {

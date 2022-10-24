@@ -68,7 +68,7 @@ export default class StatusBadger {
 			if(combined.length > 32) combined = member.user.username.substr(0, 32 - emojis.length - 1) + " " + emojis.join("")
 			member.setNickname(combined, "Apply Badges")
 			.catch(e => {
-				if(e.message == "Missing Permissions") return console.debug(`StatusBadger: Could not set nickname for ${member.user.tag} in ${member.guild.name}`)
+				if(e.message == "Missing Permissions") return //console.debug(`StatusBadger: Could not set nickname for ${member.user.tag} in ${member.guild.name}`)
 				console.error("StatusBadger: Error:", e)
 			})
 		}

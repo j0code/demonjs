@@ -18,7 +18,7 @@ export default class Stalk extends EventEmitter {
 		super()
 		writeBackup(saveData)
 		users = MagicMap.fromObject(saveData.users, StalkUser)
-		console.log("Stalk", ...(users.conarr))
+		//console.log("Stalk", ...(users.conarr))
 		this.#activeUsers = new Set()
 		var stalk = this
 		for(let ename of userEvents) client.on(ename, (a, b) => {

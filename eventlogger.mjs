@@ -2,12 +2,12 @@ import { logEvent } from "./logger.mjs"
 import { events, on } from "./util/clientevents.mjs"
 
 export default function logEvents(client, logApiEvents = false, logShardEvents = false, debug = false) {
-	if(!client || !client.on) return console.error("eventlogger.logEvents(client) requires client of type Discord.Client")
+	if(!client || !client.on) return console.trace("eventlogger.logEvents(client) requires client of type Discord.Client")
 
 	/*on([events.ANY, events.GATEWAY], handler)
 	if(logApiEvents)   on(events.API, handler)
 	if(logShardEvents) on(events.SHARD, handler)*/
-	logEvents(["ready","guildCreate","interactionCreate"])
+	on(["ready","guildCreate","interactionCreate"], handler)
 	if(debug)          on("debug", handler)
 
 

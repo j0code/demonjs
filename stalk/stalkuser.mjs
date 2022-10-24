@@ -12,11 +12,6 @@ export default class StalkUser extends EventEmitter {
 		stalkuser.#status = o.status
 		stalkuser.#deviceStatus = o.deviceStatus
 		stalkuser.#justLeft = o.justLeft
-		if(!client.users.cache.has(o.id)) {
-			client.users.fetch(o.id, { cache: true, force: true })
-			.then(user => console.log("StalkUser: fetched", user.tag, user.hexAccentColor))
-			.catch(e => console.error("StalkUser: Error fetching user:", e))
-		}
 		return stalkuser
 	}
 
@@ -62,12 +57,17 @@ export default class StalkUser extends EventEmitter {
 	}
 
 	get user() {
-		var user = client.users.cache.get(this.#id)
+		console.trace("Deprecated use of StalkUser.get user")
+		return client.users.cache.get(this.#id)
+	}
+
+	async getUser() {
+		let user = client.users.cache.get(this.#id) || client.users.fetch(this.#id)
 		if(!user) {
 			console.error("StalkUser: user not found", user, this.#id)
 			if(!this.#id) process.kill(0)
 		}
-		return client.users.cache.get(this.#id)
+		return user
 	}
 
 	set presence(presence) {

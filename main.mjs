@@ -2,6 +2,7 @@ import * as Discord from 'discord.js'
 import YSON from "@j0code/yson"
 import Commands from "./customcommands/customcommands.mjs"
 import Stalk from "./stalk/stalk.mjs"
+import StalkUser from "./stalk/stalkuser.mjs"
 import UserManager from "./usermanager/usermanager.mjs"
 import StatusBadger from "./statusbadger/statusbadger.mjs"
 import WordCount from "./word_counter/word_count.mjs"
@@ -16,6 +17,24 @@ import { logStalkEvents, getLogTimeString } from "./logger.mjs"
 export const config = await YSON.load("config.yson")
 const activities = await YSON.load("activities.yson")
 export const special_ids = await YSON.load("special_ids.yson")
+
+config.clientOptions.sweepers = {
+	guildMembers: { interval: 11, filter: () => v => {
+		let stalkUser = stalk.getUser(v.id)
+		if (!stalkUser) return true
+		let sweep = (Date.now() - stalkUser.lastSeen) > (StalkUser.activeTimeout + 60 * 1000) // inactive for 1 minute
+		if (sweep && process.argv[2] == "debug") console.log(`[SWEEP] Sweeping member ${v.user.tag} of ${v.guild.name}!`)
+		return sweep
+	}},
+	messages: { interval: 11, lifetime: 60 * 1000 }, // 1 minute
+	users: { interval: 11, filter: () => v => {
+		let stalkUser = stalk.getUser(v.id)
+		if (!stalkUser) return true
+		let sweep = (Date.now() - stalkUser.lastSeen) > (StalkUser.activeTimeout + 60 * 1000) // inactive for 1 minute
+		if (sweep && process.argv[2] == "debug") console.log(`[SWEEP] Sweeping user ${v.tag}!`)
+		return sweep
+	}}
+}
 
 export const client = new Discord.Client(config.clientOptions)
 const commands = new Commands()

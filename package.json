@@ -12,6 +12,7 @@
     "@discordjs/rest": "^0.1.0-canary.0",
     "@j0code/yson": "^1.0.4",
     "@sapphire/snowflake": "^3.0.0",
+    "canvas": "^2.10.2",
     "discord-api-types": "^0.20.2",
     "discord-rpc": "^4.0.1",
     "discord.js": "^13.3.1",

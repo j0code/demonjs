@@ -1,0 +1,108 @@
+[{
+	name: "Too Afraid To Ask Andy",
+	image: "tooafraidtoaskandy.png",
+	maxWidth: 480,
+	maxHeight: 100,
+	maxSize: 51,
+	allCaps: true,
+	texts: [{
+		pos: [254.5, 10],
+		baseline: "top"
+	}, {
+		pos: [254.5, 489],
+		default: "and at this point I'm too afraid to ask",
+		baseline: "bottom"
+	}]
+}, {
+	name: "Drake Hot Bling",
+	image: "drakehotbling.png",
+	maxWidth: 230,
+	maxHeight: 230,
+	maxSize: 51,
+	allCaps: false,
+	color: "black",
+	outlineWidth: 0,
+	texts: [{
+		pos: [375, 125]
+	}, {
+		pos: [375, 375]
+	}]
+}, {
+	name: "Two Buttons",
+	image: "twobuttons.png",
+	maxSize: 51,
+	allCaps: false,
+	color: "black",
+	outlineWidth: 0,
+	texts: [{
+		pos: [110, 110],
+		rotate: -0.08,
+		maxWidth: 120,
+		maxHeight: 70
+	}, {
+		pos: [290, 85],
+		rotate: -0.08,
+		maxWidth: 110,
+		maxHeight: 70
+	}],
+	names: [{
+		pos: [250, 710],
+		maxWidth: 480,
+		maxHeight: 65,
+		color: "white",
+		outlineWidth: 3,
+		allCaps: true
+	}]
+}, {
+	name: "Buff Doge vs. Cheems",
+	image: "buffdogevscheems.png",
+	allCaps: false,
+	color: "black",
+	outlineWidth: 0,
+	maxSize: 32,
+	texts: [{
+		pos: [162, 430],
+		maxWidth: 315,
+		maxHeight: 150
+	}, {
+		pos: [487, 430],
+		maxWidth: 315,
+		maxHeight: 150
+	}],
+	names: [{
+		pos: [162, 40],
+		maxWidth: 315,
+		maxHeight: 50
+	}, {
+		pos: [487, 50],
+		maxWidth: 315,
+		maxHeight: 80
+	}]
+}, {
+	name: "Change My Mind",
+	image: "changemymind.png",
+	allCaps: false,
+	color: "black",
+	outlineWidth: 0,
+	maxSize: 58,
+	texts: [{
+		pos: [375, 315],
+		maxWidth: 240,
+		maxHeight: 110,
+		rotate: -0.04
+	}]
+}, {
+	name: "One Does Not Simply",
+	image: "onedoesnotsimply.png",
+	maxSize: 58,
+	maxWidth: 640,
+	maxHeight: 60,
+	texts: [{
+		pos: [325, 20],
+		default: "One does not simply",
+		baseline: "top"
+	}, {
+		pos: [325, 368],
+		baseline: "bottom"
+	}]
+}]

@@ -7,6 +7,7 @@ import UserManager from "./usermanager/usermanager.mjs"
 import StatusBadger from "./statusbadger/statusbadger.mjs"
 import WordCount from "./word_counter/word_count.mjs"
 import EmbedCmd from "./embeds/embedcmd.mjs"
+import memeCmdInit from "./memes/memes.mjs"
 //import * as rpc from "./rpc.mjs" doesn't work + no documentation bruh
 import * as typing from "./typing/typing.mjs"
 import logEvents from "./eventlogger.mjs"
@@ -43,6 +44,7 @@ export const usermanager = new UserManager()
 const statusbadger = new StatusBadger(client, stalk)
 const wordcount = new WordCount()
 const embedcmd = new EmbedCmd()
+memeCmdInit()
 
 client.on("ready", () => {
 	Interactions.updateAppCommands(config.token, client.user.id)

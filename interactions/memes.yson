@@ -1,0 +1,47 @@
+[{
+	name: "meme",
+	description: "create meme caption",
+	type: 1,
+	options: [{
+		type: 4,
+		name: "template",
+		description: "meme template",
+		required: true,
+		autocomplete: true
+	}, {
+		type: 3,
+		name: "text",
+		description: "first text",
+		required: false
+	}, {
+		type: 3,
+		name: "text2",
+		description: "second text",
+		required: false
+	}, {
+		type: 3,
+		name: "name",
+		description: "first name",
+		required: false
+	}, {
+		type: 3,
+		name: "name2",
+		description: "second name",
+		required: false
+	}, {
+		type: 3,
+		name: "content",
+		description: "message content (above image)",
+		required: false
+	}, {
+		type: 3,
+		name: "text3",
+		description: "third text",
+		required: false
+	}, {
+		type: 3,
+		name: "text4",
+		description: "fourth text",
+		required: false
+	}]
+}]

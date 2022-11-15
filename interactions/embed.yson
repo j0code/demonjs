@@ -347,7 +347,7 @@
 		}, {
 			type: 3,
 			name: "confirmation",
-			description: `Write "I am sure" to confirm`,
+			description: "Write 'I am sure' to confirm",
 			required: false
 		}]
 	}]

@@ -53,7 +53,15 @@ function onComplete(i) {
 	if (i.commandName != "meme") return
 
 	const name = i.options.getInteger("template").toLowerCase()
-	console.log(name)
+	
+	if (name.length == 0) { // short cut to return all templates
+		let completions = []
+		for (let i in templates) {
+			if (i > 25) break
+			completions.push({ name: templates[i].name, value: Number(i) })
+		}
+		return i.respond(completions)
+	}
 	
 	if (!isNaN(name) && !name.includes(",") && !name.includes("-") && !name.includes("e") && !name.includes("+")) { // has to be a positive integer
 		let template = templates[Number(name)]
@@ -66,12 +74,12 @@ function onComplete(i) {
 	for (let index in templates) {
 		let t = templates[index]
 		let tname = t.name.toLowerCase()
-		if (name == tname) return i.respond([{ name: t.name, value: index }])
-		if (tname.startsWith(name)) matchingStarts.push({ name: t.name, value: index })
-		else if (tname.includes(name)) matchingIncludes.push({ name: t.name, value: index })
+		if (name == tname) return i.respond([{ name: t.name, value: Number(index) }])
+		if (tname.startsWith(name)) matchingStarts.push({ name: t.name, value: Number(index) })
+		else if (tname.includes(name)) matchingIncludes.push({ name: t.name, value: Number(index) })
 	}
 
-	i.respond(matchingStarts.concat(matchingIncludes))
+	i.respond(matchingStarts.concat(matchingIncludes).slice(25))
 }
 
 function drawText(canvas, ctx, template, text, str) {

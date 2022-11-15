@@ -23,7 +23,7 @@ config.clientOptions.sweepers = {
 	guildMembers: { interval: 11, filter: () => v => {
 		let stalkUser = stalk.getUser(v.id)
 		if (!stalkUser) return true
-		let sweep = (Date.now() - stalkUser.lastSeen) > (StalkUser.activeTimeout + 60 * 1000) // inactive for 1 minute
+		let sweep = (Date.now() - stalkUser.lastSeen) > 60 * 1000 // last seen 1 min ago
 		if (sweep && process.argv[2] == "debug") console.log(`[SWEEP] Sweeping member ${v.user.tag} of ${v.guild.name}!`)
 		return sweep
 	}},
@@ -31,7 +31,7 @@ config.clientOptions.sweepers = {
 	users: { interval: 11, filter: () => v => {
 		let stalkUser = stalk.getUser(v.id)
 		if (!stalkUser) return true
-		let sweep = (Date.now() - stalkUser.lastSeen) > (StalkUser.activeTimeout + 60 * 1000) // inactive for 1 minute
+		let sweep = (Date.now() - stalkUser.lastSeen) > 60 * 1000 // last seen 1 min ago
 		if (sweep && process.argv[2] == "debug") console.log(`[SWEEP] Sweeping user ${v.tag}!`)
 		return sweep
 	}}

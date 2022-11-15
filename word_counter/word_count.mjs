@@ -1,3 +1,5 @@
+import YSON from "@j0code/yson"
+import Discord from "discord.js"
 import { client, special_ids } from "../main.mjs"
 import * as save from "../save.mjs"
 import MagicMap from "../util/magicmap.mjs"
@@ -110,6 +112,7 @@ export default class WordCount {
 				} else if(i.commandName == "words") {
 
 					let user = i.options.getUser("user")
+					let format = i.options.getInteger("format") || 0
 					let o
 
 					if(user) {
@@ -120,10 +123,46 @@ export default class WordCount {
 						o = words.toJSON()
 					}
 
-					let s = JSON.stringify(o)
-					if(s.length <= 2000) i.reply({content: `\`\`\`json\n${s}\`\`\``, ephemeral: true, fetchReply: false})
-					else i.reply({content: `JSON is longer than Discord's character limit (2000).\nIn the future, j0code will make me upload it as a file.\nI sincerely apologize for the inconvenience. `, ephemeral: true, fetchReply: false})
+					let s = ""
+					let name = "data.json"
+					switch (format) {
+						case 0: { // json
+							s = JSON.stringify(o)
+						}
+						break
 
+						case 1: { // yson
+							s = YSON.stringify(o)
+							name = "data.yson"
+						}
+						break
+
+						case 2: { // pretty print
+							let arr = Object.entries(o).sort((a, b) => b[1] - a[1])
+							for (let i = 0; i < arr.length; i++) {
+								s += `${arr[i][0]}: ${arr[i][1]}`
+								if (i < arr.length-1) s += "\n"
+							}
+							name = "data.txt"
+						}
+						break
+
+						case 3: { // json (indented)
+							s = JSON.stringify(o, null, 2)
+						}
+						break
+					}
+
+					i.reply({ files: [new Discord.MessageAttachment(Buffer.from(s), name)], ephemeral: true })
+
+					/*o = Object.entries(o).sort((a, b) => b[1] - a[1])
+					//let s = JSON.stringify(o)
+					if(s.length <= 2000) i.reply({content: `\`\`\`json\n${s}\`\`\``, ephemeral: true, fetchReply: false})
+					else {
+						i.reply({ files: [new Discord.MessageAttachment(Buffer.from(JSON.stringify(o, null, 2)), "data.json")] })
+					}
+					// else i.reply({content: `JSON is longer than Discord's character limit (2000).\nIn the future, j0code will make me upload it as a file.\nI sincerely apologize for the inconvenience. `, ephemeral: true, fetchReply: false})
+					*/
 				} else if(i.commandName == "dictionary") {
 
 					dictionaryCmd(i)

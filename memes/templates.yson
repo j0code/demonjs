@@ -14,8 +14,8 @@
 		baseline: "bottom"
 	}]
 }, {
-	name: "Drake Hot Bling",
-	image: "drakehotbling.png",
+	name: "Drake Hotline Bling",
+	image: "drakehotlinebling.png",
 	maxWidth: 230,
 	maxHeight: 230,
 	maxSize: 51,

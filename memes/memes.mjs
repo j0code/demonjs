@@ -1,7 +1,7 @@
 import YSON from "@j0code/yson"
 import Discord from "discord.js"
 import { client } from "../main.mjs"
-import { createCanvas, loadImage } from "canvas"
+import { registerFont, createCanvas, loadImage } from "canvas"
 
 const LINE_HEIGHT = 1.2
 
@@ -11,6 +11,8 @@ export default async function init() {
 	for (let t of templates) {
 		t.canvasImage = await loadImage("./memes/templates/" + t.image)
 	}
+
+	registerFont("./font/Noto-Regular.ttf", { family: `Noto` })
 
 	client.on("interactionCreate", i => {
 		if(i.type == "APPLICATION_COMMAND") onCommand(i)
@@ -26,8 +28,14 @@ function onCommand(i) {
 
 	const text    = i.options.getString("text")    || template.texts?.[0]?.default || "text"
 	const text2   = i.options.getString("text2")   || template.texts?.[1]?.default || "text2"
+	const text3   = i.options.getString("text3")   || template.texts?.[2]?.default || "text3"
+	const text4   = i.options.getString("text4")   || template.texts?.[3]?.default || "text4"
+
 	const name    = i.options.getString("name")    || template.names?.[0]?.default || "name"
 	const name2   = i.options.getString("name2")   || template.names?.[1]?.default || "name2"
+	const name3   = i.options.getString("name3")   || template.names?.[2]?.default || "name3"
+	const name4   = i.options.getString("name4")   || template.names?.[3]?.default || "name4"
+
 	const content = i.options.getString("content") || ""
 
 	// draw image
@@ -38,8 +46,13 @@ function onCommand(i) {
 
 	if (template.texts?.length >= 1) drawText(canvas, ctx, template, template.texts[0], text)
 	if (template.texts?.length >= 2) drawText(canvas, ctx, template, template.texts[1], text2)
+	if (template.texts?.length >= 3) drawText(canvas, ctx, template, template.texts[2], text3)
+	if (template.texts?.length >= 4) drawText(canvas, ctx, template, template.texts[3], text4)
+
 	if (template.names?.length >= 1) drawText(canvas, ctx, template, template.names[0], name)
 	if (template.names?.length >= 2) drawText(canvas, ctx, template, template.names[1], name2)
+	if (template.names?.length >= 3) drawText(canvas, ctx, template, template.names[2], name3)
+	if (template.names?.length >= 4) drawText(canvas, ctx, template, template.names[3], name4)
 
 	const file = new Discord.MessageAttachment(canvas.toBuffer(), template.name.toLowerCase().replaceAll(/\s/g, "") + ".png")
 	const msgOpts = { files: [file], ephemeral: false }
@@ -53,16 +66,17 @@ function onComplete(i) {
 	if (i.commandName != "meme") return
 
 	const name = i.options.getInteger("template").toLowerCase()
-	
+
 	if (name.length == 0) { // short cut to return all templates
 		let completions = []
 		for (let i in templates) {
-			if (i > 25) break
+			if (i >= 25) break
 			completions.push({ name: templates[i].name, value: Number(i) })
 		}
 		return i.respond(completions)
 	}
-	
+
+	// if template is a number, return
 	if (!isNaN(name) && !name.includes(",") && !name.includes("-") && !name.includes("e") && !name.includes("+")) { // has to be a positive integer
 		let template = templates[Number(name)]
 		if (!template) return i.respond([])
@@ -79,7 +93,7 @@ function onComplete(i) {
 		else if (tname.includes(name)) matchingIncludes.push({ name: t.name, value: Number(index) })
 	}
 
-	i.respond(matchingStarts.concat(matchingIncludes).slice(25))
+	i.respond(matchingStarts.concat(matchingIncludes).slice(0, 25))
 }
 
 function drawText(canvas, ctx, template, text, str) {
@@ -106,7 +120,7 @@ function drawText(canvas, ctx, template, text, str) {
 		y -= size/2 * (lines.length-1) * LINE_HEIGHT
 	}
 
-	ctx.font = size + "px " + font
+	ctx.font = `${size}px "${font}"`
 	ctx.textAlign = textAlign
 	ctx.textBaseline = baseline
 
@@ -117,29 +131,31 @@ function drawText(canvas, ctx, template, text, str) {
 	// text
 	ctx.fillStyle = fill
 
+	ctx.save()
+	ctx.translate(x, y)
+	ctx.rotate(rotate * Math.PI)
 	for (let line of lines) {
-		ctx.save()
-		ctx.translate(x, y)
-		ctx.rotate(rotate * Math.PI)
 		ctx.strokeText(line, 0, 0, maxWidth)
 		ctx.fillText(line, 0, 0, maxWidth)
-		ctx.restore()
 
-		y += size * LINE_HEIGHT
+		ctx.translate(0, size * LINE_HEIGHT)
 	}
+	ctx.restore()
 }
 
 function fontMetrics(ctx, font, str, maxWidth, maxHeight, minSize, maxSize) {
 	let size = maxSize
 	let lines = [str]
 
-	ctx.font = size + "px " + font
+	if (size < 16) ctx.font = `lighter ${size}px "${font}"`
+	else ctx.font = `${size}px "${font}"`
 
 	while (size > minSize) {
 		lines = lineWrap(ctx, str, maxWidth)
 		if (lines.length * size * LINE_HEIGHT > maxHeight) {
 			size--
-			ctx.font = size + "px " + font
+			if (size < 16) ctx.font = `lighter ${size}px ${font}`
+			else ctx.font = `${size}px ${font}`
 		}
 		else break
 	}

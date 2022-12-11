@@ -90,7 +90,8 @@
 		maxWidth: 240,
 		maxHeight: 110,
 		rotate: -0.04
-	}]
+	}],
+	font: "Noto"
 }, {
 	name: "One Does Not Simply",
 	image: "onedoesnotsimply.png",
@@ -138,5 +139,282 @@
 		pos: [377, 50],
 		maxWidth: 220,
 		maxHeight: 100
+	}]
+}, {
+	name: "Which Side Are You On?",
+	image: "whichsideareyouon.jpg",
+	allCaps: true,
+	baseline: "bottom",
+	maxSize: 58,
+	outlineWidth: 5,
+	texts: [{
+		pos: [160, 510],
+		maxWidth: 310,
+		maxHeight: 100
+	}, {
+		pos: [480, 510],
+		maxWidth: 310,
+		maxHeight: 100
+	}]
+}, {
+	name: "They're The Same Picture",
+	image: "samepicture.png",
+	allCaps: false,
+	color: "black",
+	maxSize: 50,
+	outlineWidth: 0,
+	rotate: 0.05,
+	texts: [{
+		pos: [145, 100],
+		maxWidth: 140,
+		maxHeight: 160
+	}, {
+		pos: [390, 140],
+		maxWidth: 180,
+		maxHeight: 160
+	}],
+	names: [{
+		rotate: "0",
+		pos: [330, 480],
+		maxWidth: 320,
+		maxHeight: 80,
+		default: " ",
+		outline: "white",
+		outlineWidth: 3
+	}]
+}, {
+	name: "Epic Handshake",
+	image: "epichandshake.png",
+	allCaps: false,
+	color: "white",
+	maxSize: 70,
+	outline: "transparent",
+	baseline: "middle",
+	texts: [{
+		pos: [270, 100],
+		maxWidth: 150,
+		maxHeight: 150
+	}],
+	names: [{
+		pos: [150, 300],
+		maxWidth: 320,
+		maxHeight: 100,
+		rotate: 0.25
+	}, {
+		pos: [470, 290],
+		maxWidth: 320,
+		maxHeight: 150,
+		rotate: -0.125
+	}]
+}, {
+	name: "Trade Offer",
+	image: "tradeoffer.png",
+	allCaps: false,
+	color: "white",
+	maxSize: 50,
+	minSize: 10,
+	outline: "transparent",
+	baseline: "top",
+	texts: [{
+		pos: [125, 150],
+		maxWidth: 200,
+		maxHeight: 120
+	}, {
+		pos: [375, 150],
+		maxWidth: 200,
+		maxHeight: 120
+	}],
+	names: [{
+		pos: [250, 635],
+		maxWidth: 450,
+		maxHeight: 150,
+		outlineWidth: 5,
+		outline: "black",
+		baseline: "bottom"
+	}]
+}, {
+	name: "Stonks",
+	image: "stonks.png",
+	allCaps: false,
+	color: "black",
+	maxSize: 50,
+	outline: "white",
+	outlineWidth: 5,
+	baseline: "middle",
+	texts: [{
+		pos: [495, 320],
+		maxWidth: 200,
+		maxHeight: 75
+	}],
+	names: [{
+		pos: [333, 40],
+		maxWidth: 450,
+		maxHeight: 80
+	}]
+}, {
+	name: "Not Stonks",
+	image: "notstonks.png",
+	allCaps: false,
+	color: "black",
+	maxSize: 50,
+	outline: "white",
+	outlineWidth: 5,
+	baseline: "middle",
+	texts: [{
+		pos: [495, 325],
+		maxWidth: 200,
+		maxHeight: 75
+	}],
+	names: [{
+		pos: [333, 40],
+		maxWidth: 450,
+		maxHeight: 80
+	}]
+}, {
+	name: "Both Buttons",
+	image: "bothbuttons.png",
+	maxSize: 51,
+	allCaps: false,
+	color: "black",
+	outlineWidth: 0,
+	texts: [{
+		pos: [110, 110],
+		rotate: -0.08,
+		maxWidth: 120,
+		maxHeight: 70
+	}, {
+		pos: [290, 85],
+		rotate: -0.08,
+		maxWidth: 110,
+		maxHeight: 70
+	}],
+	names: [{
+		pos: [250, 710],
+		maxWidth: 480,
+		maxHeight: 65,
+		color: "white",
+		outlineWidth: 3,
+		allCaps: true
+	}]
+}, {
+	name: "The world if",
+	image: "theworldif.png",
+	maxWidth: 780,
+	maxHeight: 100,
+	maxSize: 51,
+	allCaps: true,
+	texts: [{
+		pos: [400, 10],
+		baseline: "top",
+		default: "the world if"
+	}, {
+		pos: [400, 445],
+		baseline: "bottom"
+	}]
+}, {
+	name: "Two Buttons Robotnik",
+	image: "twobuttonsrobotnik.png",
+	maxSize: 51,
+	allCaps: false,
+	color: "black",
+	outlineWidth: 0,
+	texts: [{
+		pos: [110, 110],
+		rotate: -0.08,
+		maxWidth: 120,
+		maxHeight: 70
+	}, {
+		pos: [290, 85],
+		rotate: -0.08,
+		maxWidth: 110,
+		maxHeight: 70
+	}],
+	names: [{
+		pos: [380, 530],
+		maxWidth: 250,
+		maxHeight: 65,
+		color: "white",
+		outlineWidth: 3,
+		allCaps: true
+	}]
+}, {
+	name: "Jim Halpert Explains",
+	image: "jimhalpertexplains.png",
+	maxSize: 51,
+	allCaps: false,
+	color: "black",
+	outlineWidth: 0,
+	texts: [{
+		pos: [160, 100],
+		maxWidth: 280,
+		maxHeight: 150
+	}, {
+		pos: [140, 400],
+		maxWidth: 270,
+		maxHeight: 180
+	}]
+}, {
+	name: "Epic Handshake 3",
+	image: "epichandshake3.png",
+	allCaps: false,
+	color: "white",
+	maxSize: 70,
+	outline: "transparent",
+	baseline: "middle",
+	texts: [{
+		pos: [300, 100],
+		maxWidth: 180,
+		maxHeight: 170
+	}],
+	names: [{
+		pos: [160, 340],
+		maxWidth: 320,
+		maxHeight: 100,
+		rotate: 0.25
+	}, {
+		pos: [600, 380],
+		maxWidth: 320,
+		maxHeight: 150,
+		rotate: -0.12
+	}, {
+		pos: [580, 200],
+		maxWidth: 320,
+		maxHeight: 150,
+		rotate: -0.25
+	}]
+}, {
+	name: "Epic Handshake 4",
+	image: "epichandshake4.png",
+	allCaps: false,
+	color: "white",
+	maxSize: 70,
+	outline: "transparent",
+	baseline: "middle",
+	texts: [{
+		pos: [230, 80],
+		maxWidth: 150,
+		maxHeight: 130
+	}],
+	names: [{
+		pos: [240, 190],
+		maxWidth: 160,
+		maxHeight: 80,
+		rotate: -0.25,
+		maxSize: 45
+	}, {
+		pos: [470, 270],
+		maxWidth: 320,
+		maxHeight: 100,
+		rotate: -0.15
+	}, {
+		pos: [470, 140],
+		maxWidth: 320,
+		maxHeight: 80,
+		rotate: -0.22
+	}, {
+		pos: [120, 270],
+		maxWidth: 240,
+		maxHeight: 110,
+		rotate: 0.25
 	}]
 }]

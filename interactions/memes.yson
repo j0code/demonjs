@@ -43,5 +43,15 @@
 		name: "text4",
 		description: "fourth text",
 		required: false
+	}, {
+		type: 3,
+		name: "name3",
+		description: "fourth name",
+		required: false
+	}, {
+		type: 3,
+		name: "name4",
+		description: "fourth name",
+		required: false
 	}]
 }]

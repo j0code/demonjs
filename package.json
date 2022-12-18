@@ -2,7 +2,7 @@
   "name": "demonjs",
   "version": "1.0.0",
   "description": "demonjs, a multi-functional discord bot.",
-  "main": "main.mjs",
+  "main": "dest/main.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,10 +12,14 @@
     "@discordjs/rest": "^0.1.0-canary.0",
     "@j0code/yson": "^1.0.4",
     "@sapphire/snowflake": "^3.0.0",
+    "@types/node": "^18.11.13",
     "canvas": "^2.10.2",
     "discord-api-types": "^0.20.2",
     "discord-rpc": "^4.0.1",
     "discord.js": "^13.3.1",
-    "socket.io-client": "^4.4.1"
-  }
+    "socket.io-client": "^4.4.1",
+    "tsc": "^2.0.4",
+    "typescript": "^4.9.4"
+  },
+  "type": "module"
 }

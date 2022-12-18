@@ -1,5 +1,5 @@
 import YSON from "@j0code/yson";
-import Discord, { AutocompleteInteraction, CommandInteraction } from "discord.js";
+import { AttachmentBuilder, AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 import { client, special_ids } from "../main.js";
 import * as save from "../save.js";
 import MagicMap from "../util/magicmap.js";
@@ -44,8 +44,8 @@ export default class WordCount {
             users.set(msg.author.id, user);
             writeSave();
         });
-        client.on("interactionCreate", i => {
-            if (i instanceof CommandInteraction) {
+        client.on("interactionCreate", (i) => {
+            if (i instanceof ChatInputCommandInteraction) {
                 if (i.commandName == "wordcount") {
                     let user = i.options.getUser("user");
                     let word = i.options.getString("word");
@@ -54,8 +54,10 @@ export default class WordCount {
                     let totalcount;
                     let arr = [];
                     if (user) {
-                        if (!users.has(user.id))
-                            return i.reply({ content: "User did not chat yet :/", ephemeral: true, fetchReply: false });
+                        if (!users.has(user.id)) {
+                            i.reply({ content: "User did not chat yet :/", ephemeral: true, fetchReply: false });
+                            return;
+                        }
                         let usercount = users.get(user.id);
                         o = usercount?.words.toJSON();
                         totalcount = usercount?.total || 0;
@@ -67,7 +69,8 @@ export default class WordCount {
                     if (word) {
                         if (user) {
                             let count = o[word] || 0;
-                            return i.reply({ content: `**Word: ${word}** (${user.username})\nCount: ${count}\nQuota of user: ${percent(count, totalcount)}%\nQuota of global: ${percent(count, total)}%`, ephemeral: true, fetchReply: false });
+                            i.reply({ content: `**Word: ${word}** (${user.username})\nCount: ${count}\nQuota of user: ${percent(count, totalcount)}%\nQuota of global: ${percent(count, total)}%`, ephemeral: true, fetchReply: false });
+                            return;
                         }
                         else {
                             let globalcount = o[word] || 0;
@@ -106,8 +109,10 @@ export default class WordCount {
                     let format = i.options.getInteger("format") || 0;
                     let o;
                     if (user) {
-                        if (!users.has(user.id))
-                            return i.reply({ content: "User did not chat yet :/", ephemeral: true, fetchReply: false });
+                        if (!users.has(user.id)) {
+                            i.reply({ content: "User did not chat yet :/", ephemeral: true, fetchReply: false });
+                            return;
+                        }
                         let usercount = users.get(user.id);
                         o = usercount?.words.toJSON();
                     }
@@ -145,7 +150,7 @@ export default class WordCount {
                             }
                             break;
                     }
-                    i.reply({ files: [new Discord.MessageAttachment(Buffer.from(s), name)], ephemeral: true });
+                    i.reply({ files: [new AttachmentBuilder(Buffer.from(s), { name, description: `Word count data encoded as ${format}` })], ephemeral: true });
                     /*o = Object.entries(o).sort((a, b) => b[1] - a[1])
                     //let s = JSON.stringify(o)
                     if(s.length <= 2000) i.reply({content: `\`\`\`json\n${s}\`\`\``, ephemeral: true, fetchReply: false})

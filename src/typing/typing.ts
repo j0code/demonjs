@@ -1,4 +1,4 @@
-import { CategoryChannel, Message, StageChannel, StoreChannel, Typing } from "discord.js"
+import { CategoryChannel, ForumChannel, Message, PartialGroupDMChannel, StageChannel, TextChannel } from "discord.js"
 import { client } from "../main.js"
 
 type TypingData = { begin: number, last: number, msg: Message | null, pocs: number }
@@ -28,7 +28,7 @@ export function listen() {
 		if (!o) return
 		channels.delete(msg.channel.id)
 		if(now - o.begin > pocTime) {
-			msg.channel.send(`${msg.author} pócced after ${(now - o.begin)/1000}s and ${o.pocs} pócs.`)
+			(msg.channel as TextChannel).send(`${msg.author} pócced after ${(now - o.begin)/1000}s and ${o.pocs} pócs.`)
 		}
 		if (o.msg) {
 			o.msg.delete()
@@ -47,7 +47,7 @@ export function update() {
 		for(let cid of channels.keys()) {
 			let o = channels.get(cid)
 			let c = client.channels.cache.get(cid)
-			if(!o || !c || c instanceof CategoryChannel || c instanceof StageChannel || c instanceof StoreChannel) continue
+			if(!o || !c || c instanceof CategoryChannel || c instanceof StageChannel || c instanceof PartialGroupDMChannel || c instanceof ForumChannel) continue
 			if(now - o.last > typingTime) {
 				channels.delete(cid)
 				if (o.msg) {

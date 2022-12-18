@@ -1,5 +1,5 @@
 import YSON from "@j0code/yson"
-import Discord, { AutocompleteInteraction, CommandInteraction, InteractionReplyOptions } from "discord.js"
+import { AttachmentBuilder, AutocompleteInteraction, ChatInputCommandInteraction, InteractionReplyOptions } from "discord.js"
 import { client } from "../main.js"
 import { registerFont, createCanvas, loadImage, Canvas, Image } from "canvas"
 
@@ -55,12 +55,12 @@ export default async function init() {
 	registerFont("./font/Noto-Regular.ttf", { family: `Noto` })
 
 	client.on("interactionCreate", i => {
-		if (i instanceof CommandInteraction) onCommand(i)
+		if (i instanceof ChatInputCommandInteraction) onCommand(i)
 		if (i instanceof AutocompleteInteraction) onComplete(i)
 	})
 }
 
-function onCommand(i: CommandInteraction) {
+function onCommand(i: ChatInputCommandInteraction) {
 	if (i.commandName != "meme") return
 
 	let templateId = i.options.getInteger("template")
@@ -97,7 +97,7 @@ function onCommand(i: CommandInteraction) {
 	if (template.names?.length >= 3) drawText(canvas, ctx, template, template.names[2], name3)
 	if (template.names?.length >= 4) drawText(canvas, ctx, template, template.names[3], name4)
 
-	const file = new Discord.MessageAttachment(canvas.toBuffer(), template.name.toLowerCase().replaceAll(/\s/g, "") + ".png")
+	const file = new AttachmentBuilder(canvas.toBuffer(), { name: template.name.toLowerCase().replaceAll(/\s/g, "") + ".png", description: template.name })
 	const msgOpts: InteractionReplyOptions = { files: [file], ephemeral: false }
 	if (content) msgOpts.content = content
 	i.reply(msgOpts)

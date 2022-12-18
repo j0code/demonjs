@@ -1,4 +1,4 @@
-import { CategoryChannel, StageChannel, StoreChannel } from "discord.js";
+import { CategoryChannel, ForumChannel, PartialGroupDMChannel, StageChannel } from "discord.js";
 import { client } from "../main.js";
 const pocTime = 45000; // 45s
 const typingTime = 11000; // 11s
@@ -41,7 +41,7 @@ export function update() {
         for (let cid of channels.keys()) {
             let o = channels.get(cid);
             let c = client.channels.cache.get(cid);
-            if (!o || !c || c instanceof CategoryChannel || c instanceof StageChannel || c instanceof StoreChannel)
+            if (!o || !c || c instanceof CategoryChannel || c instanceof StageChannel || c instanceof PartialGroupDMChannel || c instanceof ForumChannel)
                 continue;
             if (now - o.last > typingTime) {
                 channels.delete(cid);

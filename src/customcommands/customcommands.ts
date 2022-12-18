@@ -1,4 +1,4 @@
-import { DiscordAPIError, Message } from "discord.js"
+import { ChatInputCommandInteraction, Message, TextChannel } from "discord.js"
 import fs from "fs"
 import { client } from "../main.js"
 
@@ -24,7 +24,7 @@ export default class Commands {
 	constructor() {
 
 		client.on("interactionCreate", i => {
-		  if(!i.isCommand()) return
+		  if(!(i instanceof ChatInputCommandInteraction)) return
 		  if(i.commandName == "command") {
 		    if(i.options.getSubcommand() == "set") {
 
@@ -105,10 +105,10 @@ export default class Commands {
 		    	.catch(e => msg.reply("Invalid reaction: " + cmd?.reaction))
 		    }
 		    if(cmd.reply) msg.reply(substDollar(cmd.content, name, args, msg, false)).then(react)
-		    else msg.channel.send(substDollar(cmd.content, name, args, msg, false)).then(react)
+		    else (msg.channel as TextChannel).send(substDollar(cmd.content, name, args, msg, false)).then(react)
 		    if(cmd.delmsg) msg.delete()
 		    .catch(e => {
-		      msg.channel.send("Error: Unable to delete msg.")
+				(msg.channel as TextChannel).send("Error: Unable to delete msg.")
 		      console.log("Error when deleting msg:", e)
 		    })
 		  } else if(cmd.reaction) {

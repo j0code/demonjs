@@ -1,3 +1,4 @@
+import { ChatInputCommandInteraction } from "discord.js";
 import fs from "fs";
 import { client } from "../main.js";
 let commands = new Map();
@@ -13,7 +14,7 @@ console.log({ commands });
 export default class Commands {
     constructor() {
         client.on("interactionCreate", i => {
-            if (!i.isCommand())
+            if (!(i instanceof ChatInputCommandInteraction))
                 return;
             if (i.commandName == "command") {
                 if (i.options.getSubcommand() == "set") {

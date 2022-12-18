@@ -3,7 +3,7 @@ import { client } from "../main.js";
 import MagicMap from "../util/magicmap.js";
 import * as save from "../save.js";
 import StalkUser from "./stalkuser.js";
-import { Interaction, Presence } from "discord.js";
+import { BaseInteraction, Presence } from "discord.js";
 const userEvents = ["emojiCreate", "guildMemberAdd", "guildScheduledEventCreate", "guildScheduledEventUserAdd", "guildScheduledEventUserRemove", "interactionCreate"];
 userEvents.push("inviteCreate", "messageCreate", "messageReactionAdd", "messageUpdate", "presenceUpdate", "stickerCreate", "typingStart", "userUpdate", "voiceStateUpdate");
 const debugChannel = "943264045866291240";
@@ -76,7 +76,7 @@ export default class Stalk extends EventEmitter {
         }
         else {
             stalkUser.seen();
-            if (b && !(b instanceof Interaction) && "member" in b)
+            if (b && !(b instanceof BaseInteraction) && "member" in b)
                 stalkUser.presence = b.member?.presence;
         }
         //var c = client.channels.cache.get(debugChannel)

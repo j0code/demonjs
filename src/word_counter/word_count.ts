@@ -1,5 +1,5 @@
 import YSON from "@j0code/yson"
-import Discord, { AutocompleteInteraction, CommandInteraction } from "discord.js"
+import { AttachmentBuilder, AutocompleteInteraction, ChatInputCommandInteraction, Interaction } from "discord.js"
 import { client, special_ids } from "../main.js"
 import * as save from "../save.js"
 import MagicMap from "../util/magicmap.js"
@@ -62,8 +62,8 @@ export default class WordCount {
 			writeSave()
 		})
 
-		client.on("interactionCreate", i => {
-			if(i instanceof CommandInteraction) {
+		client.on("interactionCreate", (i: Interaction): void => {
+			if(i instanceof ChatInputCommandInteraction) {
 				if(i.commandName == "wordcount") {
 
 					let user = i.options.getUser("user")
@@ -74,7 +74,10 @@ export default class WordCount {
 					let arr: Array<[string, number]> = []
 
 					if (user) {
-						if(!users.has(user.id)) return i.reply({content: "User did not chat yet :/", ephemeral: true, fetchReply: false})
+						if(!users.has(user.id)) {
+							i.reply({content: "User did not chat yet :/", ephemeral: true, fetchReply: false})
+							return
+						}
 						let usercount = users.get(user.id)
 						o = usercount?.words.toJSON()
 						totalcount = usercount?.total || 0
@@ -86,7 +89,8 @@ export default class WordCount {
 					if (word) {
 						if (user) {
 							let count = o[word] || 0
-							return i.reply({content: `**Word: ${word}** (${user.username})\nCount: ${count}\nQuota of user: ${percent(count, totalcount)}%\nQuota of global: ${percent(count, total)}%`, ephemeral: true, fetchReply: false})
+							i.reply({content: `**Word: ${word}** (${user.username})\nCount: ${count}\nQuota of user: ${percent(count, totalcount)}%\nQuota of global: ${percent(count, total)}%`, ephemeral: true, fetchReply: false})
+							return
 						} else {
 							let globalcount = o[word] || 0
 							totalcount = 0
@@ -123,7 +127,10 @@ export default class WordCount {
 					let o: any
 
 					if (user) {
-						if (!users.has(user.id)) return i.reply({content: "User did not chat yet :/", ephemeral: true, fetchReply: false})
+						if (!users.has(user.id)) {
+							i.reply({content: "User did not chat yet :/", ephemeral: true, fetchReply: false})
+							return
+						}
 						let usercount = users.get(user.id)
 						o = usercount?.words.toJSON()
 					} else {
@@ -160,7 +167,7 @@ export default class WordCount {
 						break
 					}
 
-					i.reply({ files: [new Discord.MessageAttachment(Buffer.from(s), name)], ephemeral: true })
+					i.reply({ files: [new AttachmentBuilder(Buffer.from(s), { name, description: `Word count data encoded as ${format}` })], ephemeral: true })
 
 					/*o = Object.entries(o).sort((a, b) => b[1] - a[1])
 					//let s = JSON.stringify(o)
@@ -204,7 +211,7 @@ export default class WordCount {
 
 }
 
-function dictionaryCmd(i: CommandInteraction) {
+function dictionaryCmd(i: ChatInputCommandInteraction) {
 
 	let subcmd = i.options.getSubcommand()
 
@@ -215,7 +222,7 @@ function dictionaryCmd(i: CommandInteraction) {
 
 }
 
-function showDict(i: CommandInteraction, title: string, list: MagicMap<number>) {
+function showDict(i: ChatInputCommandInteraction, title: string, list: MagicMap<number>) {
 	let arr = []
 	let len = 0
 
@@ -234,7 +241,7 @@ function showDict(i: CommandInteraction, title: string, list: MagicMap<number>) 
 	// - allow filtering by language
 }
 
-function showLangs(i: CommandInteraction, title: string, list: MagicMap<Language>) {
+function showLangs(i: ChatInputCommandInteraction, title: string, list: MagicMap<Language>) {
 	let arr = []
 	let len = 0
 
@@ -254,7 +261,7 @@ function showLangs(i: CommandInteraction, title: string, list: MagicMap<Language
 	i.reply({content: `**${title}**\n${s}`, ephemeral: true})
 }
 
-function addLang(i: CommandInteraction) {
+function addLang(i: ChatInputCommandInteraction) {
 	if (i.user.id != special_ids.owner) return i.reply({content: "This command is for the bot owner only.", ephemeral: true})
 
 	let code    = i.options.getString("code")

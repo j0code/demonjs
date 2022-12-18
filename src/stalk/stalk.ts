@@ -3,7 +3,7 @@ import { client } from "../main.js"
 import MagicMap from "../util/magicmap.js"
 import * as save from "../save.js"
 import StalkUser from "./stalkuser.js"
-import { Emoji, GuildMember, GuildScheduledEvent, Interaction, Invite, Message, Presence, Sticker, Typing, User, VoiceState } from "discord.js"
+import { BaseInteraction, Emoji, GuildMember, GuildScheduledEvent, Interaction, Invite, Message, Presence, Sticker, Typing, User, VoiceState } from "discord.js"
 
 const userEvents = ["emojiCreate","guildMemberAdd","guildScheduledEventCreate","guildScheduledEventUserAdd","guildScheduledEventUserRemove","interactionCreate"]
 userEvents.push("inviteCreate","messageCreate","messageReactionAdd","messageUpdate","presenceUpdate","stickerCreate","typingStart","userUpdate","voiceStateUpdate")
@@ -72,7 +72,7 @@ export default class Stalk extends EventEmitter {
 			else stalkUser.presence = b
 		} else {
 			stalkUser.seen()
-			if (b && !(b instanceof Interaction) && "member" in b) stalkUser.presence = b.member?.presence
+			if (b && !(b instanceof BaseInteraction) && "member" in b) stalkUser.presence = b.member?.presence
 		}
 		//var c = client.channels.cache.get(debugChannel)
 		//if(!c) return console.error("Stalk: Error: onUserEvent(): debug channel missing or unavailable")

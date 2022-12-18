@@ -1,0 +1,30 @@
+import { client } from "../main.js"
+import MagicMap from "../util/magicmap.js"
+import UserManagerUser from "./usermanageruser.js"
+
+const users: MagicMap<UserManagerUser> = new MagicMap()
+
+export default class UserManager {
+
+	constructor() {
+
+		client.on("guildMemberUpdate", (a, b) => {
+			if (a.nickname != b.nickname) {
+				let user: UserManagerUser | undefined
+				if (users.has(a.id)) {
+					user = users.get(a.id)
+				} else {
+					user = new UserManagerUser(b.user)
+					users.set(a.id, user)
+				}
+				if (user) user.updateGuildSettings(b)
+			}
+		})
+
+	}
+
+	getUser(id: string) {
+		return users.get(id)
+	}
+
+}

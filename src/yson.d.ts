@@ -1,0 +1,1 @@
+declare module "@j0code/yson"

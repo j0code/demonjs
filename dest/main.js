@@ -13,6 +13,7 @@ import logEvents from "./eventlogger.js";
 import * as Interactions from "./interactions.js";
 import * as debug_console from "./debug_console.js";
 import { logStalkEvents, getLogTimeString } from "./logger.js";
+import oauthInit from "./oauth.js";
 export const config = await YSON.load("config.yson");
 const activities = await YSON.load("activities.yson");
 export const special_ids = await YSON.load("special_ids.yson");
@@ -25,6 +26,7 @@ const wordcount = new WordCount();
 const embedcmd = new EmbedCmd();
 memeCmdInit();
 debug_console; // to make typescript import it
+oauthInit();
 config.clientOptions.sweepers = {
     guildMembers: { interval: 11, filter: () => (v) => {
             let stalkUser = stalk.getUser(v.id);

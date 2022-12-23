@@ -23,7 +23,7 @@ export function checkAny(s: any, arr: any[], func: string) {
 	let f: any = s[func]
 	if (!(f instanceof Function)) return
 	for(let i = 0; i < arr.length; i++) {
-		if (f(arr[i])) return i
+		if (f(arr[i]+"")) return i
 	}
 	return null
 }
@@ -32,7 +32,7 @@ export function checkAll(s: any, arr: any[], func: string) { // use with !checkA
 	let f: any = s[func]
 	if (!(f instanceof Function)) return
 	for(let i = 0; i < arr.length; i++) {
-		if(!f(arr[i])) return i
+		if(!f(arr[i]+"")) return i
 	}
 	return null
 }

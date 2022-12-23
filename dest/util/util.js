@@ -25,7 +25,7 @@ export function checkAny(s, arr, func) {
     if (!(f instanceof Function))
         return;
     for (let i = 0; i < arr.length; i++) {
-        if (f(arr[i]))
+        if (f(arr[i] + ""))
             return i;
     }
     return null;
@@ -35,7 +35,7 @@ export function checkAll(s, arr, func) {
     if (!(f instanceof Function))
         return;
     for (let i = 0; i < arr.length; i++) {
-        if (!f(arr[i]))
+        if (!f(arr[i] + ""))
             return i;
     }
     return null;

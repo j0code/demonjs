@@ -52,7 +52,7 @@ export default class StatusBadger {
 	}
 
 	updateNickname(member: GuildMember) {
-		if(!member || member.user.bot) return
+		/*if(!member || member.user.bot) return
 		var badgeList = [badges.desktop, badges.mobile, badges.web, badges.invisible] // in reverse since it cuts the from the end
 		var nick = member.displayName
 		var emojis = this.getBadges(member.id)
@@ -73,7 +73,9 @@ export default class StatusBadger {
 				console.error("StatusBadger: Error:", e)
 			})
 		}
-		//console.log({ before: member.displayName, nick, emojis, combined, beforeBuf: Buffer.from(member.displayName), nickBuffr: Buffer.from(nick), emojisBuf: Buffer.from(emojis.join(""))})
+		//console.log({ before: member.displayName, nick, emojis, combined, beforeBuf: Buffer.from(member.displayName), nickBuffr: Buffer.from(nick), emojisBuf: Buffer.from(emojis.join(""))})*/
+
+		// disabled
 	}
 
 }

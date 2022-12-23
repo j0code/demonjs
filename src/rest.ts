@@ -31,7 +31,7 @@ const logger = new Logger("rest", AnsiCode.fg_yellow)
 export const rest = express()
 
 export function restInit() {
-	rest.listen(config.rest.port, () => logger.log({ name: "info",  emoji: " ℹ", color: AnsiCode.fg_white}, `listening at http://localhost:${config.rest.port}`))
+	rest.listen(config.rest.port, () => logger.log({ name: "info",  emoji: "ℹ️", color: AnsiCode.fg_white}, `listening at http://localhost:${config.rest.port}`))
 }
 
 export function fetchAPI(options: FetchOptions) {

@@ -69,10 +69,10 @@ export default async function oauthInit() {
     }
 }
 function getDefaultBotInvite() {
-    return `https://discord.com/oauth2/authorize?client_id=${config.oauth.id}&redirect_uri=${config.oauth.redirect_uri}&response_type=code&scope=${config.oauth.scope.default}&permissions=${config.oauth.permissions}`;
+    return `https://discord.com/oauth2/authorize?client_id=${config.oauth.id}&redirect_uri=${encodeURIComponent(config.oauth.redirect_uri)}&response_type=code&scope=${config.oauth.scope.default}&permissions=${config.oauth.permissions}`;
 }
 function getConnectBotInvite() {
-    return `https://discord.com/oauth2/authorize?client_id=${config.oauth.id}&redirect_uri=${config.oauth.redirect_uri}&response_type=code&scope=${config.oauth.scope.connect}`;
+    return `https://discord.com/oauth2/authorize?client_id=${config.oauth.id}&redirect_uri=${encodeURIComponent(config.oauth.redirect_uri)}&response_type=code&scope=${config.oauth.scope.connect}`;
 }
 async function updateMetadata(id) {
     let oauthData = oauthStore.get(id);

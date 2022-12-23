@@ -23,7 +23,7 @@ export default class EmbedCmd {
 			fromObject: (o: any) => MagicMap.fromObject(o, null)
 		})
 
-		console.log("embeds:", ...embeds.conarr)
+		//console.log("embeds:", ...embeds.conarr)
 
 		client.on("interactionCreate", async (i: Interaction): Promise<void> => {
 			if (!i) return

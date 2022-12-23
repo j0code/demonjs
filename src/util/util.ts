@@ -56,3 +56,9 @@ export function autocomplete<T>(list: MagicMap<T>, condition: (arg0: string, arg
 	}
 	return arr
 }
+
+export function trailingFill(s: string, len: number) {
+	let trail = len - s.length
+	if (trail < 0) trail = 0
+	return s + " ".repeat(trail)
+}

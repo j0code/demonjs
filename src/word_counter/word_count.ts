@@ -14,7 +14,7 @@ type Language = {
 }
 
 let words: MagicMap<number>
-let users: MagicMap<{ words: MagicMap<number>, total: number }>
+export let users: MagicMap<{ words: MagicMap<number>, total: number }>
 let total: number
 let dictionary: MagicMap<any> // TODO
 let languages: MagicMap<Language>

@@ -55,7 +55,7 @@ export default class StatusBadger {
         var badgeList = [badges.desktop, badges.mobile, badges.web, badges.invisible]; // in reverse since it cuts the from the end
         var nick = member.displayName;
         var emojis = this.getBadges(member.id);
-        if (!emojis)
+        if (!nick || !emojis)
             return;
         var index = null;
         while ((index = checkAny(nick, badgeList, "endsWith")) != null) {

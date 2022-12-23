@@ -12,7 +12,10 @@ import * as typing from "./typing/typing.js";
 import logEvents from "./eventlogger.js";
 import * as Interactions from "./interactions.js";
 import * as debug_console from "./debug_console.js";
-import { logStalkEvents, getLogTimeString } from "./logger.js";
+import { logStalkEvents, getLogTimeString, ansify, AnsiCode } from "./logger.js";
+import oauthInit from "./oauth.js";
+import { trailingFill } from './util/util.js';
+import { restInit } from './rest.js';
 export const config = await YSON.load("config.yson");
 const activities = await YSON.load("activities.yson");
 export const special_ids = await YSON.load("special_ids.yson");
@@ -25,6 +28,8 @@ const wordcount = new WordCount();
 const embedcmd = new EmbedCmd();
 memeCmdInit();
 debug_console; // to make typescript import it
+oauthInit();
+restInit();
 config.clientOptions.sweepers = {
     guildMembers: { interval: 11, filter: () => (v) => {
             let stalkUser = stalk.getUser(v.id);
@@ -58,8 +63,12 @@ client.on("ready", () => {
         });
     }
     console.group("Bot in following guilds:");
+    let len = 0;
+    for (let g of client.guilds.cache.values())
+        if (g.name.length > len)
+            len = g.name.length;
     for (let g of client.guilds.cache.values()) {
-        console.log(`${g.name} (${g.id}) @ ${getLogTimeString()}`);
+        console.log(ansify `${AnsiCode.fg_cyan}${trailingFill(g.name, len)} ${AnsiCode.fg_light_grey}(${g.id}) @ ${AnsiCode.fg_dark_grey}${getLogTimeString()}`);
     }
     console.groupEnd();
 });

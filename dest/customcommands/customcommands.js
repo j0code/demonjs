@@ -5,12 +5,11 @@ let commands = new Map();
 try {
     let data = JSON.parse(fs.readFileSync("./commands.json", "utf8"));
     commands = new Map(data);
-    console.log("Loaded commands!");
 }
 catch (e) {
     commands = new Map();
 }
-console.log({ commands });
+//console.log({commands})
 export default class Commands {
     constructor() {
         client.on("interactionCreate", i => {

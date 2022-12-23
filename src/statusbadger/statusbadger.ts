@@ -1,7 +1,6 @@
 import { GuildMember } from "discord.js"
 import { client, stalk, usermanager } from "../main.js"
 import StalkUser from "../stalk/stalkuser.js"
-import { checkAny } from "../util/util.js"
 
 const debugChannel = "943264045866291240"
 const testServer = "859422707229917204"

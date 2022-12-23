@@ -114,10 +114,10 @@ export function logStalkEvents() {
 	stalk.on("active", async (user) => {
 		//console.log("active", user, user.user)
 		let dcuser = await user.getUser()
-		stalkLogger.log({ name: "active", emoji: "🕵️ ", color: "90" }, `${dcuser.tag}`)
+		stalkLogger.log({ name: "active", emoji: "🕵️", color: "90" }, `${dcuser.tag}`)
 	})
 	stalk.on("inactive", async (user) => {
 		let dcuser = await user.getUser()
-		stalkLogger.log({ name: "inactive", emoji: "🕵️ ", color: "90" }, `${dcuser.tag}`)
+		stalkLogger.log({ name: "inactive", emoji: "🕵️", color: "90" }, `${dcuser.tag}`)
 	})
 }

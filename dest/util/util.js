@@ -62,3 +62,9 @@ export function autocomplete(list, condition, choice, max = 25) {
     }
     return arr;
 }
+export function trailingFill(s, len) {
+    let trail = len - s.length;
+    if (trail < 0)
+        trail = 0;
+    return s + " ".repeat(trail);
+}

@@ -1,5 +1,7 @@
-import { logEvent } from "./logger.js";
+import { AnsiCode, Logger } from "./logger.js";
 import { events, on } from "./util/clientevents.js";
+import { camelToUpper } from "./util/util.js";
+const logger = new Logger("dc.js", AnsiCode.fg_light_blue);
 export default function logEvents(client, logApiEvents = false, logShardEvents = false, debug = false) {
     if (!client || !client.on)
         return console.trace("eventlogger.logEvents(client) requires client of type Discord.Client");
@@ -91,7 +93,7 @@ export default function logEvents(client, logApiEvents = false, logShardEvents =
 }
 function log(e, ...content) {
     let o = getEventOptions(e);
-    logEvent(o, ...content);
+    logger.log(o, ...content);
 }
 function handler(data) {
     const msgguildname = data.guild?.name || "DM";
@@ -180,46 +182,47 @@ function handler(data) {
         console.log("Error: EventLogger: ", e);
     }
 }
-function getEventOptions(e) {
-    if (events.SHARD.includes(e))
-        return { e, emoji: "✨", color: "93" };
-    if ("channelPinsUpdate" == e)
-        return { e, emoji: "📌" };
-    if ("error" == e)
-        return { e, emoji: "🔴", color: "41;97" };
-    if ("guildCreate" == e)
-        return { e, emoji: "➡️ ", color: "32" };
-    if ("guildDelete" == e)
-        return { e, emoji: "⬅️ ", color: "91" };
-    if ("interactionCreate" == e)
-        return { e, emoji: "🔥", color: "95" };
-    if (["invalidRequestWarning", "rateLimit", "warn"].includes(e))
-        return { e, emoji: "⚠️ ", color: "43;90" }; // 🟡
-    if (["messageCreate", "messageUpdate"].includes(e))
-        return { e, emoji: "✍️ ", color: "34" }; // 💬📝
-    if ("ready" == e)
-        return { e, emoji: "✅", color: "92" };
-    if ("threadListSync" == e)
-        return { e, emoji: "🔁" };
-    if ("typingStart" == e)
-        return { e, emoji: "💬" };
-    if ("voiceStateUpdate" == e)
-        return { e, emoji: "🎤" }; // 🎙️
-    if ("webhookUpdate" == e)
-        return { e, emoji: "⚓" };
-    if (e.includes("guildBan"))
-        return { e, emoji: "🚫" };
-    if (e.includes("thread"))
-        return { e, emoji: "🧵" };
-    if (e.includes("Add"))
-        return { e, emoji: "➕", color: "32" };
-    if (e.includes("Remove"))
-        return { e, emoji: "➖", color: "91" };
-    if (e.includes("Create"))
-        return { e, emoji: "🟢", color: "32" };
-    if (e.includes("Update"))
-        return { e, emoji: "🔄", color: "94" };
-    if (e.includes("Delete"))
-        return { e, emoji: "❌", color: "91" };
-    return { e, emoji: "  " };
+function getEventOptions(name) {
+    name = camelToUpper(name || "");
+    if (events.SHARD.includes(name))
+        return { name, emoji: "✨", color: "93" };
+    if ("CHANNEL_PINS_UPDATE" == name)
+        return { name, emoji: "📌" };
+    if ("ERROR" == name)
+        return { name, emoji: "🔴", color: "41;97" };
+    if ("GUILD_CREATE" == name)
+        return { name, emoji: "➡️ ", color: "32" };
+    if ("GUILD_DELETE" == name)
+        return { name, emoji: "⬅️ ", color: "91" };
+    if ("INTERACTION_CREATE" == name)
+        return { name, emoji: "🔥", color: "95" };
+    if (["INVALID_REQUEST_WARNING", "RATE_LIMIT", "WARN"].includes(name))
+        return { name, emoji: "⚠️ ", color: "43;90" }; // 🟡
+    if (["MESSAGE_CREATE", "MESSAGE_UPDATE"].includes(name))
+        return { name, emoji: "✍️ ", color: "34" }; // 💬📝
+    if ("READY" == name)
+        return { name, emoji: "✅", color: "92" };
+    if ("THREAD_LIST_SYNC" == name)
+        return { name, emoji: "🔁" };
+    if ("TYPING_START" == name)
+        return { name, emoji: "💬" };
+    if ("VOICE_STATE_UPDATE" == name)
+        return { name, emoji: "🎤" }; // 🎙️
+    if ("WEBHOOK_UPDATE" == name)
+        return { name, emoji: "⚓" };
+    if (name.includes("GUILD_BAN"))
+        return { name, emoji: "🚫" };
+    if (name.includes("THREAD"))
+        return { name, emoji: "🧵" };
+    if (name.includes("ADD"))
+        return { name, emoji: "➕", color: "32" };
+    if (name.includes("REMOVE"))
+        return { name, emoji: "➖", color: "91" };
+    if (name.includes("CREATE"))
+        return { name, emoji: "🟢", color: "32" };
+    if (name.includes("UPDATE"))
+        return { name, emoji: "🔄", color: "94" };
+    if (name.includes("DELETE"))
+        return { name, emoji: "❌", color: "91" };
+    return { name, emoji: "  " };
 }

@@ -6,7 +6,7 @@ import MagicMap from "../util/magicmap.js";
 import { autocomplete } from "../util/util.js";
 const saveData = await save.load("word_count", true) || await save.load("backup/word_count", true) || {};
 let words;
-let users;
+export let users;
 let total;
 let dictionary; // TODO
 let languages;

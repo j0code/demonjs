@@ -1,1 +1,0 @@
-declare module "discord-api-types/v10"

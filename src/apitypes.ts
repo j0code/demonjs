@@ -1,20 +1,12 @@
-export enum EmbedColorName {
-	DEFAULT = "DEFAULT", WHITE = "WHITE", AQUA = "AQUA", GREEN = "GREEN",
-	BLUE = "BLUE", YELLOW = "YELLOW", PURPLE = "PURPLE",
-	LUMINOUS_VIVID_PINK = "LUMINOUS_VIVID_PINK", FUCHSIA = "FUCHSIA",
-	GOLD = "GOLD", ORANGE = "ORANGE", RED = "RED", GREY = "GREY",
-	NAVY = "NAVY", DARK_AQUA = "DARK_AQUA", DARK_GREEN = "DARK_GREEN",
-	DARK_BLUE = "DARK_BLUE", DARK_PURPLE = "DARK_PURPLE",
-	DARK_PINK = "DARK_PINK", DARK_GOLD = "DARK_GOLD",
-	DARK_ORANGE = "DARK_ORANGE", DARK_RED = "DARK_RED",
-	DARK_GREY = "DARK_GREY", DARKER_GREY = "DARKER_GREY",
-	LIGHT_GREY = "LIGHT_GREY", DARK_NAVY = "DARK_NAVY",
-	BLURPLE = "BLURPLE", GREYPLE = "GREYPLE",
-	DARK_BUT_NOT_BLACK = "DARK_BUT_NOT_BLACK",
-	NOT_QUITE_BLACK = "NOT_QUITE_BLACK", RANDOM = "RANDOM"
-}
+export type EmbedColorName =
+	"DEFAULT" | "WHITE" | "AQUA" | "GREEN" | "BLUE" | "YELLOW" | "PURPLE" |
+	"LUMINOUS_VIVID_PINK" | "FUCHSIA" | "GOLD" | "ORANGE" | "RED" | "GREY" |
+	"NAVY" | "DARK_AQUA" | "DARK_GREEN" | "DARK_BLUE" | "DARK_PURPLE" |
+	"DARK_PINK" | "DARK_GOLD" | "DARK_ORANGE" | "DARK_RED" | "DARK_GREY" |
+	"DARKER_GREY" | "LIGHT_GREY" | "DARK_NAVY" | "BLURPLE" | "GREYPLE" |
+	"DARK_BUT_NOT_BLACK" | "NOT_QUITE_BLACK"
 
-export const EMBED_COLORS: Map<EmbedColorName, number> = new Map<EmbedColorName, number>(Object.entries({
+export const EMBED_COLORS: Record<EmbedColorName, number> = {
 	DEFAULT:     0,        // #000000
 	WHITE:       16777215, // #ffffff
 	AQUA:        1752220,  // #1abc9c
@@ -45,31 +37,31 @@ export const EMBED_COLORS: Map<EmbedColorName, number> = new Map<EmbedColorName,
 	GREYPLE:     10070709, // #99aab5
 	DARK_BUT_NOT_BLACK:  2895667, // #2c2f33
 	NOT_QUITE_BLACK:     2303786, // #23272a
-}) as [])
+}
 
 export type EmbedOptions = {
 	author?: {
 		icon_url?: string,
-		name?:  string,
+		name:  string, // 256 chars
 		proxy_icon_url?: string
 		url?: string
 	},
-	color?: number | [number, number, number] | EmbedColorName,
-	description?: string,
-	fields?: {
+	color?: number | [number, number, number] | EmbedColorName | "RANDOM",
+	description?: string, // 4096 chars
+	fields?: { // up to 25
 		inline?: boolean,
-		name?: string,
-		value?: string
+		name: string, // 256 chars
+		value: string // 1024 chars
 	}[],
 	footer?: {
 		icon_url?: string,
 		proxy_icon_url?: string,
-		text?: string
+		text: string // 2048 chars
 	},
 	image?: {
 		height?: number,
 		proxy_url?: string,
-		url?: string,
+		url: string,
 		width?: number
 	},
 	provider?: {
@@ -79,11 +71,11 @@ export type EmbedOptions = {
 	thumbnail?: {
 		height?: number,
 		proxy_url?: string,
-		url?: string,
+		url: string,
 		width?: number
 	}
 	timestamp?: string,
-	title?: string,
+	title?: string, // 256 chars
 	url?: string,
 	video?: {
 		height?: number,

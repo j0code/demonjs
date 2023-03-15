@@ -1,9 +1,10 @@
 import { AutocompleteInteraction, ChatInputCommandInteraction, PermissionsBitField } from "discord.js";
 import { client } from "../main.js";
 import * as save from "../save.js";
-import { EmbedColorName, EMBED_COLORS } from "../apitypes.js";
+import { EMBED_COLORS } from "../apitypes.js";
 import MagicMap from "../util/magicmap.js";
 import { autocomplete } from "../util/util.js";
+import { ChannelType } from "discord-api-types/v10";
 var saveData = await save.load("embeds", true) || await save.load("backup/embeds", true) || {};
 let embeds;
 export default class EmbedCmd {
@@ -21,11 +22,11 @@ export default class EmbedCmd {
                 let subcmd = i.options.getSubcommand();
                 if (group == "send") {
                     let authorized = false;
-                    if (["DM", "GROUP_DM"].includes(i.channel?.type || ""))
+                    if ([ChannelType.DM, ChannelType.GroupDM].includes(i.channel?.type || -1))
                         authorized = true;
                     else {
-                        let perms = i.member.permissions;
-                        authorized = perms.any([PermissionsBitField.Flags.ModerateMembers, PermissionsBitField.Flags.ManageGuild], true);
+                        let perms = i.memberPermissions;
+                        authorized = perms?.any([PermissionsBitField.Flags.ModerateMembers, PermissionsBitField.Flags.ManageGuild], true) || false;
                     }
                     if (!authorized) {
                         i.reply({ content: `Only server admins / mods may use this command.`, ephemeral: true });
@@ -213,7 +214,7 @@ function getEmbedOptions(i, x) {
         }
         else if (!isNaN(Number(rawcolor)))
             o.color = Number(rawcolor);
-        else if (rawcolor in EmbedColorName)
+        else if (rawcolor in EMBED_COLORS)
             o.color = rawcolor;
     }
     if (rawfields && typeof rawfields == "string") { // name0,value0,inline0;name1,value1,inline1;...
@@ -224,33 +225,58 @@ function getEmbedOptions(i, x) {
             o.fields.push({ name: farr[0], value: farr[1], inline: Boolean(f[2]) });
         }
     }
-    if (!o.author)
-        o.author = {};
-    if (!o.footer)
-        o.footer = {};
-    if (!o.image)
-        o.image = {};
-    if (!o.video)
-        o.video = {};
-    o.author.name = i.options.getString("author") ?? o.author.name;
-    o.author.url = i.options.getString("author-url") ?? o.author.url;
-    o.author.icon_url = i.options.getString("author-icon") ?? o.author.icon_url;
-    o.footer.text = i.options.getString("footer") ?? o.footer.text;
-    o.footer.icon_url = i.options.getString("footer-icon") ?? o.footer.icon_url;
-    o.image.url = i.options.getString("image") ?? o.image.url;
-    o.video.url = i.options.getString("video") ?? o.video.url;
+    const authorName = i.options.getString("author");
+    const footerText = i.options.getString("footer");
+    const imageUrl = i.options.getString("image");
+    const videoUrl = i.options.getString("video");
+    if (!o.author && authorName)
+        o.author = { name: authorName };
+    if (!o.footer && footerText)
+        o.footer = { text: footerText };
+    if (!o.image && imageUrl)
+        o.image = { url: imageUrl };
+    if (!o.video && videoUrl)
+        o.image = { url: videoUrl };
+    if (o.author)
+        o.author.url = i.options.getString("author-url") ?? o.author.url;
+    if (o.author)
+        o.author.icon_url = i.options.getString("author-icon") ?? o.author.icon_url;
+    if (o.footer)
+        o.footer.icon_url = i.options.getString("footer-icon") ?? o.footer.icon_url;
     return x;
 }
 function convertEmbedOptions(opt) {
-    let apiOpt = new Object(opt);
-    if (apiOpt.color instanceof Array) {
-        apiOpt.color = (apiOpt.color[0] << 16) + (apiOpt.color[1] << 8) + (apiOpt.color[2]); // [r,g,b] -> int
+    let apiOpt = {};
+    if (opt.author)
+        apiOpt.author = opt.author;
+    if (opt.description)
+        apiOpt.description = opt.description;
+    if (opt.fields)
+        apiOpt.fields = opt.fields;
+    if (opt.footer)
+        apiOpt.footer = opt.footer;
+    if (opt.image)
+        apiOpt.image = opt.image;
+    if (opt.provider)
+        apiOpt.provider = opt.provider;
+    if (opt.thumbnail)
+        apiOpt.thumbnail = opt.thumbnail;
+    if (opt.timestamp)
+        apiOpt.timestamp = opt.timestamp;
+    if (opt.title)
+        apiOpt.title = opt.title;
+    if (opt.url)
+        apiOpt.url = opt.url;
+    if (opt.video)
+        apiOpt.video = opt.video;
+    if (opt.color instanceof Array) {
+        apiOpt.color = (opt.color[0] << 16) + (opt.color[1] << 8) + (opt.color[2]); // [r,g,b] -> int
     }
-    else if (apiOpt.color && apiOpt.color in EmbedColorName) {
-        if (apiOpt.color == "RANDOM")
+    else if (apiOpt.color && apiOpt.color in EMBED_COLORS) {
+        if (opt.color == "RANDOM")
             apiOpt.color = Math.floor(Math.random() * 0x1000000); // int in [0, 0xffffff]
         else
-            apiOpt.color = EMBED_COLORS.get(apiOpt.color);
+            apiOpt.color = EMBED_COLORS[opt.color];
     }
     console.log(opt, apiOpt);
     return apiOpt;

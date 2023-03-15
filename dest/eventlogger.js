@@ -98,6 +98,7 @@ function log(e, ...content) {
 function handler(data) {
     const msgguildname = data.guild?.name || "DM";
     const msgchannelname = data.channel?.name || data.channel?.recipient?.tag;
+    const msgchannelidentifier = data.channel?.isDMBased() ? `${msgguildname}@${msgchannelname}` : `${msgguildname}#${msgchannelname}`;
     const authortag = data.author?.tag || "unknown_user#0000";
     let changes = [];
     if (data.changes)
@@ -125,17 +126,17 @@ function handler(data) {
                 break;
             case "messageCreate":
             case "messageDelete":
-                log(data.e, `${msgguildname} #${msgchannelname} @${authortag}: ${data?.message?.content}`);
+                log(data.e, `${msgchannelidentifier} @${authortag}: ${data?.message?.content}`);
                 break;
             case "messageUpdate":
-                log(data.e, `${msgguildname} #${msgchannelname} @${authortag}:`, ...changes);
+                log(data.e, `${msgchannelidentifier} @${authortag}:`, ...changes);
                 break;
             case "channelCreate":
             case "channelDelete":
-                log(data.e, `${msgguildname} #${msgchannelname}`);
+                log(data.e, `${msgchannelidentifier}`);
                 break;
             case "channelUpdate":
-                log(data.e, `${data?.guild} #${data.channel?.name}:`, ...changes);
+                log(data.e, `${msgchannelidentifier}:`, ...changes);
                 break;
             case "guildCreate":
             case "guildDelete":
@@ -151,20 +152,20 @@ function handler(data) {
                 log(data.e, `@${data.user?.tag}:`, ...changes);
                 break;
             case "webhookUpdate":
-                log(data.e, `${data.guild?.name} #${data.channel?.name}:`, ...changes);
+                log(data.e, `${msgchannelidentifier}:`, ...changes);
                 break;
             case "messageReactionAdd":
             case "messageReactionRemove":
-                log(data.e, `${data.guild?.name} #${data.channel?.name} ${data.user?.tag} ${data.reaction?.emoji?.name}`);
+                log(data.e, `${msgchannelidentifier} ${data.user?.tag} ${data.reaction?.emoji?.name}`);
                 break;
             case "rateLimit":
                 log(data.e, `${data.rateLimitData.method} ${data.rateLimitData.path} ${data.rateLimitData.limit / 1000}s; global: ${data.rateLimitData.global}`);
                 break;
             case "typingStart":
-                log(data.e, `${data.guild?.name} #${data.channel?.name} @${data.user?.tag}`);
+                log(data.e, `${msgchannelidentifier} @${data.user?.tag}`);
                 break;
             case "voiceStateUpdate":
-                log(data.e, `${data.guild?.name} #${data.channel?.name} @${data.user?.tag}:`, ...changes);
+                log(data.e, `${msgchannelidentifier} @${data.user?.tag}:`, ...changes);
                 break;
             case "guildMemberUpdate":
                 log(data.e, `${data.guild?.name} @${data.user?.tag}:`, ...changes);

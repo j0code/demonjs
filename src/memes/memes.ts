@@ -1,7 +1,7 @@
 import YSON from "@j0code/yson"
 import { AttachmentBuilder, AutocompleteInteraction, ChatInputCommandInteraction, InteractionReplyOptions } from "discord.js"
 import { client } from "../main.js"
-import { registerFont, createCanvas, loadImage, Canvas, Image } from "canvas"
+import { registerFont, createCanvas, loadImage, Canvas, Image, CanvasRenderingContext2D } from "canvas"
 
 const LINE_HEIGHT = 1.2
 
@@ -84,7 +84,7 @@ function onCommand(i: ChatInputCommandInteraction) {
 	// draw image
 	const img = template.canvasImage
 	const canvas = createCanvas(img.width, img.height)
-	const ctx = canvas.getContext("2d")
+	const ctx: CanvasRenderingContext2D = canvas.getContext("2d")
 	ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
 
 	if (template.texts?.length >= 1) drawText(canvas, ctx, template, template.texts[0], text)

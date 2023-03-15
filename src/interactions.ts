@@ -37,9 +37,9 @@ export async function updateAppCommands(token: string, id: string | undefined) {
 	//console.log("Commands:", cmds)
 	rest.setToken(token)
 	try {
-		logger.log({ name: "info", emoji: "ℹ️", color: AnsiCode.fg_white }, `refreshing application (/) commands...`)
+		logger.log({ name: "info", emoji: " ℹ", color: AnsiCode.fg_white }, `refreshing application (/) commands...`)
 		await rest.put(Routes.applicationCommands(id as `${bigint}`), { body: cmds })
-		logger.log({ name: "info", emoji: "ℹ️", color: AnsiCode.fg_white }, `refreshed application (/) commands!`)
+		logger.log({ name: "info", emoji: " ℹ", color: AnsiCode.fg_white }, `refreshed application (/) commands!`)
 	} catch (e) {
 		logger.log({ name: "error", emoji: "❌", color: AnsiCode.fg_red }, `refreshing application (/) commands:`, e)
 	}

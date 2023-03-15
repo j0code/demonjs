@@ -18,7 +18,7 @@ const oauthStore = new Map<string, OauthStoreData>() // user id -> data
 const loglevel = {
 	ERROR: { name: "error", emoji: "💢", color: AnsiCode.fg_red },
 	AUTH:  { name: "auth",  emoji: "🔐", color: AnsiCode.fg_light_green },
-	INFO:  { name: "info",  emoji: "ℹ️", color: AnsiCode.fg_white}
+	INFO:  { name: "info",  emoji: " ℹ", color: AnsiCode.fg_white}
 } as const
 
 export default async function oauthInit() {

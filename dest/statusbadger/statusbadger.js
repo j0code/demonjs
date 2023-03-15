@@ -1,6 +1,5 @@
 import { client, stalk } from "../main.js";
 import StalkUser from "../stalk/stalkuser.js";
-import { checkAny } from "../util/util.js";
 const debugChannel = "943264045866291240";
 const testServer = "859422707229917204";
 const badges = {
@@ -50,31 +49,28 @@ export default class StatusBadger {
         return emojis;
     }
     updateNickname(member) {
-        if (!member || member.user.bot)
-            return;
-        var badgeList = [badges.desktop, badges.mobile, badges.web, badges.invisible]; // in reverse since it cuts the from the end
-        var nick = member.displayName;
-        var emojis = this.getBadges(member.id);
-        if (!nick || !emojis)
-            return;
-        var index = null;
-        while ((index = checkAny(nick, badgeList, "endsWith")) != null) {
+        /*if(!member || member.user.bot) return
+        var badgeList = [badges.desktop, badges.mobile, badges.web, badges.invisible] // in reverse since it cuts the from the end
+        var nick = member.displayName
+        var emojis = this.getBadges(member.id)
+        if(!nick || !emojis) return
+        var index = null
+        while((index = checkAny(nick, badgeList, "endsWith")) != null) {
             //console.log("before:", {nick, index, badges: badgeList[index], len: badgeList[index].length})
-            nick = nick.substr(0, nick.length - badgeList[index].length);
+            nick = nick.substr(0, nick.length - badgeList[index].length)
             //console.log("after: ", {nick})
         }
-        nick = nick.trim();
-        var combined = nick.substr(0, 32 - emojis.length - 1) + " " + emojis.join(""); // must not exceed 32 chars
-        if (combined != member.displayName) {
-            if (combined.length > 32)
-                combined = member.user.username.substr(0, 32 - emojis.length - 1) + " " + emojis.join("");
+        nick = nick.trim()
+        var combined = nick.substr(0, 32 - emojis.length - 1) + " " + emojis.join("") // must not exceed 32 chars
+        if(combined != member.displayName) {
+            if(combined.length > 32) combined = member.user.username.substr(0, 32 - emojis.length - 1) + " " + emojis.join("")
             member.setNickname(combined, "Apply Badges")
-                .catch(e => {
-                if (e.message == "Missing Permissions")
-                    return; //console.debug(`StatusBadger: Could not set nickname for ${member.user.tag} in ${member.guild.name}`)
-                console.error("StatusBadger: Error:", e);
-            });
+            .catch(e => {
+                if(e.message == "Missing Permissions") return //console.debug(`StatusBadger: Could not set nickname for ${member.user.tag} in ${member.guild.name}`)
+                console.error("StatusBadger: Error:", e)
+            })
         }
-        //console.log({ before: member.displayName, nick, emojis, combined, beforeBuf: Buffer.from(member.displayName), nickBuffr: Buffer.from(nick), emojisBuf: Buffer.from(emojis.join(""))})
+        //console.log({ before: member.displayName, nick, emojis, combined, beforeBuf: Buffer.from(member.displayName), nickBuffr: Buffer.from(nick), emojisBuf: Buffer.from(emojis.join(""))})*/
+        // disabled
     }
 }

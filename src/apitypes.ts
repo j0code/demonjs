@@ -1,3 +1,5 @@
+import { ActivityType } from "discord.js"
+
 export type EmbedColorName =
 	"DEFAULT" | "WHITE" | "AQUA" | "GREEN" | "BLUE" | "YELLOW" | "PURPLE" |
 	"LUMINOUS_VIVID_PINK" | "FUCHSIA" | "GOLD" | "ORANGE" | "RED" | "GREY" |
@@ -83,4 +85,12 @@ export type EmbedOptions = {
 		url?: string,
 		width?: number
 	}
+}
+
+export const activityTypes: Record<string, ActivityType> = {
+	"STREAMING": 1,
+	"LISTENING": 2,
+	"WATCHING":  3,
+	"CUSTOM":    4,
+	"COMPETING": 5
 }

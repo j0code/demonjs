@@ -22,8 +22,8 @@ export default class EmbedCmd {
                 let subcmd = i.options.getSubcommand();
                 if (group == "send") {
                     let authorized = false;
-                    if ([ChannelType.DM, ChannelType.GroupDM].includes(i.channel?.type || -1))
-                        authorized = true;
+                    if ([ChannelType.DM, ChannelType.GroupDM].includes(i.channel?.type || ChannelType.GuildText))
+                        authorized = true; // TODO: rethink! (ChannelType.GuildText)
                     else {
                         let perms = i.memberPermissions;
                         authorized = perms?.any([PermissionsBitField.Flags.ModerateMembers, PermissionsBitField.Flags.ManageGuild], true) || false;

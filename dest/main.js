@@ -16,8 +16,8 @@ import { logStalkEvents, getLogTimeString, ansify, AnsiCode } from "./logger.js"
 import oauthInit from "./oauth.js";
 import { trailingFill } from './util/util.js';
 import { restInit } from './rest.js';
+import { setRandomActivity } from './randomstatus.js';
 export const config = await YSON.load("config.yson");
-const activities = await YSON.load("activities.yson");
 export const special_ids = await YSON.load("special_ids.yson");
 export const client = new Discord.Client(config.clientOptions);
 const commands = new Commands();
@@ -54,21 +54,15 @@ config.clientOptions.sweepers = {
 client.on("ready", () => {
     Interactions.updateAppCommands(config.token, client?.user?.id);
     setInterval(loop, 5000); // run loop every 5 seconds
-    setRandomPresence();
-    setInterval(setRandomPresence, 9000);
-    function setRandomPresence() {
-        let i = Math.floor(Math.random() * activities.length);
-        client?.user?.setPresence({
-            activities: [activities[i]]
-        });
-    }
+    setRandomActivity();
+    setInterval(setRandomActivity, 11000);
     console.group("Bot in following guilds:");
     let len = 0;
     for (let g of client.guilds.cache.values())
         if (g.name.length > len)
             len = g.name.length;
     for (let g of client.guilds.cache.values()) {
-        console.log(ansify `${AnsiCode.fg_cyan}${trailingFill(g.name, len)} ${AnsiCode.fg_light_grey}(${g.id}) @ ${AnsiCode.fg_dark_grey}${getLogTimeString()}`);
+        console.log(ansify `${AnsiCode.fg_cyan}${trailingFill(g.name, len)} ${AnsiCode.fg_light_grey}(${g.id}) @ ${AnsiCode.fg_dark_grey}${getLogTimeString(g.createdAt)}`);
     }
     console.groupEnd();
 });

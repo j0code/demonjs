@@ -30,3 +30,10 @@ export const EMBED_COLORS = {
     DARK_BUT_NOT_BLACK: 2895667,
     NOT_QUITE_BLACK: 2303786, // #23272a
 };
+export const activityTypes = {
+    "STREAMING": 1,
+    "LISTENING": 2,
+    "WATCHING": 3,
+    "CUSTOM": 4,
+    "COMPETING": 5
+};
